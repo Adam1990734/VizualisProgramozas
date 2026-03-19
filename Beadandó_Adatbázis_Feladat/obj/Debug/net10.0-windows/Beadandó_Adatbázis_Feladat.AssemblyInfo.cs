@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Beadandó_Adatbázis_Feladat")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b65cacbff88b3f373803da3a4cdc502f00418f6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b19be9b7a7f79300a7d3cbf32fbb4ee7cd37b27f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Beadandó_Adatbázis_Feladat")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Beadandó_Adatbázis_Feladat")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

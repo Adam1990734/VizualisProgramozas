@@ -9,7 +9,9 @@ namespace Beadandó_Adatbázis_Feladat
     class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         //Adatbázis elemek:
-        public DbSet<Ember> Emberek { get; set; }
+        public DbSet<Agent> Agents { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<PropertyType> PropertyTypes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer(DbContext.Config.ConnectionString);
