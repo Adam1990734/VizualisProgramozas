@@ -9,12 +9,13 @@ namespace Beadandó_Adatbázis_Feladat.Models
     internal class PropertyType : IComparable<PropertyType>
     {
         [Column("tipus_ID")]
-        public int Id { get; set; }
+        public int? Id { get; protected set; }
         [Column("tipus_nev")]
         public string? Name { get; set; }
 
         public PropertyType(PropertyType other)
         {
+            this.Id = null;
             this.Name = other.Name;
         }
         public PropertyType() { }

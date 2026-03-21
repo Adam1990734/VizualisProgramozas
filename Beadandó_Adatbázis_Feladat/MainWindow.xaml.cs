@@ -13,6 +13,12 @@ namespace Beadandó_Adatbázis_Feladat
         public MainWindow()
         {
             InitializeComponent();
+            using var db = new DataBase();
+            //foreach (var a in db.Agents.ToList())
+            //{
+            //    MessageBox.Show(a.Name);
+            //}
+            //Példa a join-ra:
         }
     }
 }

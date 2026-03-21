@@ -9,9 +9,9 @@ namespace Beadandó_Adatbázis_Feladat.Models
     internal class Property : IComparable<Property>
     {
         [Column("ingatlan_ID")]
-        public int Id { get; set; }
+        public int? Id { get; protected set; }
         [Column("fk_tipusID")]
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
         [Column("fk_ugynokID")]
         public int? AgentId { get; set; }
         private string _Location;
@@ -40,16 +40,16 @@ namespace Beadandó_Adatbázis_Feladat.Models
                 _Area = value;
             }
         }
-        private int _CountOfRoums;
+        private int _CountOfRooms;
         [Column("szobaszam")]
-        public int CountOfRoums
+        public int CountOfRooms
         {
-            get => _CountOfRoums;
+            get => _CountOfRooms;
             set
             {
                 if(value <= 0)
                     throw new Exception("Room count is out of range.");
-                _CountOfRoums = value;
+                _CountOfRooms = value;
             }
         }
         private double _Price;
@@ -65,20 +65,20 @@ namespace Beadandó_Adatbázis_Feladat.Models
             }
         }
         [Column("garazs")]
-        public bool Garazs { get; set; }
+        public bool Garage { get; set; }
         [Column("zoldovezet")]
         public bool GreenArea { get; set; }
         public Property(Property other)
         {
-            this.TypeId = other.TypeId;
-            this.AgentId = other.AgentId;
+            //Biztonságosan csak hogy ne lehesse "adatlopás"
+            this.Id = this.TypeId = this.AgentId = null;
 
             this.Location = other.Location;
             this.District = other.District;
             this.Area = other.Area;
-            this.CountOfRoums = other.CountOfRoums;
+            this.CountOfRooms = other.CountOfRooms;
             this.Price = other.Price;
-            this.Garazs = other.Garazs;
+            this.Garage = other.Garage;
             this.GreenArea = other.GreenArea;
         }
         public Property() { }

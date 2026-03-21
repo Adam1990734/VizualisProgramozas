@@ -11,7 +11,7 @@ namespace Beadandó_Adatbázis_Feladat.Models
     {
         //Az ügynök adatbázis ID-ja lehet ha kell
         [Column("ugynok_ID")]
-        public int Id { get; set; }
+        public int? Id { get; protected set; }
         //Az ügynök elérhetőség jelzi pl dolgozik-e
         [Column("statusz")]
         public bool Status { get; set; }
@@ -47,6 +47,7 @@ namespace Beadandó_Adatbázis_Feladat.Models
 
         public Agent(Agent other)
         {
+            this.Id = null;
             this.Name = other.Name;
             this.PhoneNumber = other.PhoneNumber;
             this.Status = other.Status;
