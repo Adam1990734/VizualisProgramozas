@@ -7,5 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <DataGrid ItemsSource="{Binding AllInOneAPI}" Width="auto" Height="auto" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding MAgent.Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

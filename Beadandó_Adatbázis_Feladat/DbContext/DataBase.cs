@@ -18,13 +18,13 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
             if(!options.IsConfigured)
                 options.UseSqlServer(DbContext.Config.ConnectionString);
         }
-        public List<MAgentPropery> JoinProperiesAndAgents()
+        public List<MAgentProperty> JoinProperiesAndAgents()
         {
             return Properties.Join(
                 Agents,
                 prop => prop.AgentId,
                 agent => agent.Id,
-                (prop, agent) => new MAgentPropery
+                (prop, agent) => new MAgentProperty
                 {
                     MAgent = agent,
                     MProperty = prop

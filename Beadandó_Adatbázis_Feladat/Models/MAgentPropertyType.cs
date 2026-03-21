@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beadandó_Adatbázis_Feladat.Models
 {
-    internal class MAgentPropertyType
+    public sealed class MAgentPropertyType
     {
         //Ügynök adatai:
         public Agent MAgent { get; set; }

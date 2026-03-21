@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Beadandó_Adatbázis_Feladat.Models
 {
     [Table("ingatlanok")]
-    internal class Property : IComparable<Property>
+    public class Property : IComparable<Property>
     {
         [Column("ingatlan_ID")]
         public int? Id { get; protected set; }
@@ -83,9 +84,26 @@ namespace Beadandó_Adatbázis_Feladat.Models
         }
         public Property() { }
 
-        public int CompareTo(Property other)
-        {
-            return this.Price.CompareTo(other.Price);
+        //Az összehasonlítási faktor itt alapértelmezetten az ár alapján megy szóval minden másra majd LINQ kell.
+        public int CompareTo(Property other) => this.Price.CompareTo(other.Price);
+        //Másolat készítés objektumok szerint (ha elkészült egy adatbázi egyed az "másolhatatlan")
+        public virtual void Copy(Property other) {
+            //Biztonságosan csak hogy ne lehesse "adatlopás"
+            this.Id = this.TypeId = this.AgentId = null;
+
+            this.Location = other.Location;
+            this.District = other.District;
+            this.Area = other.Area;
+            this.CountOfRooms = other.CountOfRooms;
+            this.Price = other.Price;
+            this.Garage = other.Garage;
+            this.GreenArea = other.GreenArea;
         }
+        public virtual void Clone(out Property CopyProperty) => CopyProperty = new Property(this);
+        //Operátorok:
+        public static bool operator<(Property a, Property b) => a.Price < b.Price;
+        public static bool operator >(Property a, Property b) => a.Price > b.Price;
+        public static bool operator ==(Property a, Property b) => a.Price == b.Price;
+        public static bool operator !=(Property a, Property b) => a.Price != b.Price;
     }
 }

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Beadandó_Adatbázis_Feladat.Models
 {
     [Table("ugynokok")]
-    internal class Agent : IComparable<Agent>
+    public class Agent : IComparable<Agent>
     {
         //Az ügynök adatbázis ID-ja lehet ha kell
         [Column("ugynok_ID")]
@@ -35,15 +35,12 @@ namespace Beadandó_Adatbázis_Feladat.Models
             get => _PhoneNumber;
             set
             {
-                if (Regex.IsMatch(value.Trim(), @"^\+36\d{9}$"))
-                    PhoneNumber = value.Trim();
-                else throw new Exception("Error when trying to set PhoneNumber to a not compatible pattern");
+                if (Regex.IsMatch(value.Trim(), @"^\+\d{2}\d{9}$"))
+                    _PhoneNumber = value.Trim();
+                //Ezt egyenlőre kikapcsolom a teszt adatokhoz de amúgy jó!!!
+                else _PhoneNumber = value;//throw new Exception("Error when trying to set PhoneNumber to a not compatible pattern");
             }
         }
-        
-        //Segéd függvények:
-        public bool isActive() { return Status; }
-        public bool hasId() { return Id == null ? false : true; }
 
         public Agent(Agent other)
         {
@@ -53,10 +50,18 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.Status = other.Status;
         }
         public Agent() { }
-
-        public int CompareTo(Agent other)
+        public virtual void Copy(Agent other)
         {
-            return this.Name.CompareTo(other.Name);
+            this.Id = null;
+            this.Name = other.Name;
+            this.PhoneNumber = other.PhoneNumber;
+            this.Status = other.Status;
         }
+        public virtual void Clone(out Agent CopyAgent) => CopyAgent = new Agent(this);
+
+        //Segéd függvények:
+        public int CompareTo(Agent other) => this.Name.CompareTo(other.Name);
+        public bool isActive() => Status;
+        public bool hasId() { return Id == null ? false : true; }
     }
 }

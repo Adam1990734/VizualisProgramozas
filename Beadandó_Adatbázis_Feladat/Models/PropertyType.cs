@@ -6,12 +6,12 @@ using System.Text;
 namespace Beadandó_Adatbázis_Feladat.Models
 {
     [Table("tipusok")]
-    internal class PropertyType : IComparable<PropertyType>
+    public class PropertyType : IComparable<PropertyType>
     {
         [Column("tipus_ID")]
         public int? Id { get; protected set; }
         [Column("tipus_nev")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public PropertyType(PropertyType other)
         {
@@ -19,12 +19,14 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.Name = other.Name;
         }
         public PropertyType() { }
-
-        public int CompareTo(PropertyType other)
+        public virtual void Copy(PropertyType other)
         {
-            if (this.Name != null && other.Name != null)
-                return this.Name.CompareTo(other.Name);
-            else throw new Exception("Unable to decide which is graiter, one of the elements is null");
+            this.Id = null;
+            this.Name = other.Name;
         }
+        public virtual void Clone(out PropertyType CopyPropertyType) => CopyPropertyType = new PropertyType(this);
+
+        public int CompareTo(PropertyType other) => this.Name.CompareTo(other.Name);
+        public bool hasId() { return Id == null ? false : true; }
     }
 }

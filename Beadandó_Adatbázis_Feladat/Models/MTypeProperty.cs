@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beadandó_Adatbázis_Feladat.Models
 {
-    internal class MTypeProperty
+    public sealed class MTypeProperty
     {
         //Ingatlan adatai:
         public Property MProperty { get; set; }
