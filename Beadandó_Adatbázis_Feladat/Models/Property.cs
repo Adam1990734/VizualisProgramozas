@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Beadandó_Adatbázis_Feladat.Models
 {
+    [Table("ingatlanok")]
     internal class Property : IComparable<Property>
     {
+        [Column("ingatlan_ID")]
         public int Id { get; set; }
+        [Column("fk_tipusID")]
         public int TypeId { get; set; }
+        [Column("fk_ugynokID")]
         public int? AgentId { get; set; }
         private string _Location;
+        [Column("helyseg")]
         public string Location
         {
             get => _Location;
@@ -19,10 +25,12 @@ namespace Beadandó_Adatbázis_Feladat.Models
                     throw new Exception("There should be a Location given!");
             }
         }
-        public short? District { get; set; }
+        [Column("kerulet")]
+        public int? District { get; set; }
         //Épület specifikációs adatok:
-        private double _Area;
-        public double Area
+        private int _Area;
+        [Column("terulet")]
+        public int Area
         {
             get => _Area;
             set
@@ -32,8 +40,9 @@ namespace Beadandó_Adatbázis_Feladat.Models
                 _Area = value;
             }
         }
-        private short _CountOfRoums;
-        public short CountOfRoums
+        private int _CountOfRoums;
+        [Column("szobaszam")]
+        public int CountOfRoums
         {
             get => _CountOfRoums;
             set
@@ -44,6 +53,7 @@ namespace Beadandó_Adatbázis_Feladat.Models
             }
         }
         private double _Price;
+        [Column("ar")]
         public double Price
         {
             get => _Price;
@@ -54,7 +64,9 @@ namespace Beadandó_Adatbázis_Feladat.Models
                 _Price = value;
             }
         }
+        [Column("garazs")]
         public bool Garazs { get; set; }
+        [Column("zoldovezet")]
         public bool GreenArea { get; set; }
         public Property(Property other)
         {
@@ -69,6 +81,7 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.Garazs = other.Garazs;
             this.GreenArea = other.GreenArea;
         }
+        public Property() { }
 
         public int CompareTo(Property other)
         {

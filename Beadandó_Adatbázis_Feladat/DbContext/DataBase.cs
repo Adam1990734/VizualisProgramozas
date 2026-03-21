@@ -4,9 +4,9 @@ using System.Text;
 using Beadandó_Adatbázis_Feladat.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Beadandó_Adatbázis_Feladat
+namespace Beadandó_Adatbázis_Feladat.DbContext
 {
-    class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
+    class DataBase : Microsoft.EntityFrameworkCore.DbContext
     {
         //Adatbázis elemek:
         public DbSet<Agent> Agents { get; set; }
@@ -14,7 +14,8 @@ namespace Beadandó_Adatbázis_Feladat
         public DbSet<PropertyType> PropertyTypes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(DbContext.Config.ConnectionString);
+            if(!options.IsConfigured)
+                options.UseSqlServer(DbContext.Config.ConnectionString);
         }
     }
 }

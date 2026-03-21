@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Beadandó_Adatbázis_Feladat.Models
 {
+    [Table("ugynokok")]
     internal class Agent : IComparable<Agent>
     {
         //Az ügynök adatbázis ID-ja lehet ha kell
-        public int? Id { get; set; }
+        [Column("ugynok_ID")]
+        public int Id { get; set; }
         //Az ügynök elérhetőség jelzi pl dolgozik-e
+        [Column("statusz")]
         public bool Status { get; set; }
 
         private string _Name;
+        [Column("ugynok_nev")]
         public string Name
         {
             get => _Name;
@@ -23,8 +28,9 @@ namespace Beadandó_Adatbázis_Feladat.Models
             }
         }
 
-        private string _PhoneNumber;
-        public string PhoneNumber
+        private string? _PhoneNumber;
+        [Column("telefon")]
+        public string? PhoneNumber
         {
             get => _PhoneNumber;
             set
@@ -45,6 +51,8 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.PhoneNumber = other.PhoneNumber;
             this.Status = other.Status;
         }
+        public Agent() { }
+
         public int CompareTo(Agent other)
         {
             return this.Name.CompareTo(other.Name);

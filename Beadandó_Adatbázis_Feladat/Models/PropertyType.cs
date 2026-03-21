@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Beadandó_Adatbázis_Feladat.Models
 {
+    [Table("tipusok")]
     internal class PropertyType : IComparable<PropertyType>
     {
+        [Column("tipus_ID")]
         public int Id { get; set; }
+        [Column("tipus_nev")]
         public string? Name { get; set; }
 
         public PropertyType(PropertyType other)
         {
             this.Name = other.Name;
         }
+        public PropertyType() { }
 
         public int CompareTo(PropertyType other)
         {
