@@ -6,7 +6,7 @@ using System.Text;
 namespace Beadandó_Adatbázis_Feladat.Models
 {
     [Table("tipusok")]
-    public class PropertyType : IComparable<PropertyType>
+    public class PropertyType : PropertyDbBase, IComparable<PropertyType>
     {
         [Column("tipus_ID")]
         public int? Id { get; protected set; }
@@ -19,12 +19,13 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.Name = other.Name;
         }
         public PropertyType() { }
-        public virtual void Copy(PropertyType other)
+        public void Copy(PropertyDbBase ToCopy)
         {
+            var other = (PropertyType)ToCopy;
             this.Id = null;
             this.Name = other.Name;
         }
-        public virtual void Clone(out PropertyType CopyPropertyType) => CopyPropertyType = new PropertyType(this);
+        public void Clone(out PropertyDbBase Clone) => Clone = new PropertyType(this);
 
         public int CompareTo(PropertyType other) => this.Name.CompareTo(other.Name);
         public bool hasId() { return Id == null ? false : true; }

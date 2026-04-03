@@ -44,7 +44,7 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
                 }
             ).ToList();
         }
-        public List<MAgentPropertyType> JoinAllTable()
+        public List<PropertyDbBase> JoinAllTable()
         {
             return JoinProperiesAndTypes().Join(
                 Agents,
@@ -56,21 +56,21 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
                     MProperty = propAndType.MProperty,
                     MPropertyType = propAndType.MPropertyType
                 }
-            ).ToList();
+            ).ToList().Cast<PropertyDbBase>().ToList();
         }
         //Úgy van elkészítve hogy a getter minden adatot visszaad az Id-k nélkül
-        public List<MAgentPropertyType> getAllData
+        public List<PropertyDbBase> getAllData
         {
             get
             {
-                return JoinAllTable().Select(
+                return JoinAllTable().Cast<MAgentPropertyType>().Select(
                     record => new MAgentPropertyType()
                     {
                         MAgent = new Agent(record.MAgent),
                         MProperty = new Property(record.MProperty),
                         MPropertyType = new PropertyType(record.MPropertyType)
                     }
-                ).ToList();
+                ).Cast<PropertyDbBase>().ToList();
             }
         }
     }

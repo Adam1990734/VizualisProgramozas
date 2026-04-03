@@ -7,7 +7,7 @@ using System.Text;
 namespace Beadandó_Adatbázis_Feladat.Models
 {
     [Table("ingatlanok")]
-    public class Property : IComparable<Property>
+    public class Property : PropertyDbBase, IComparable<Property>
     {
         [Column("ingatlan_ID")]
         public int? Id { get; protected set; }
@@ -87,7 +87,8 @@ namespace Beadandó_Adatbázis_Feladat.Models
         //Az összehasonlítási faktor itt alapértelmezetten az ár alapján megy szóval minden másra majd LINQ kell.
         public int CompareTo(Property other) => this.Price.CompareTo(other.Price);
         //Másolat készítés objektumok szerint (ha elkészült egy adatbázi egyed az "másolhatatlan")
-        public virtual void Copy(Property other) {
+        public void Copy(PropertyDbBase ToCopy) {
+            var other = (Property)ToCopy;
             //Biztonságosan csak hogy ne lehesse "adatlopás"
             this.Id = this.TypeId = this.AgentId = null;
 
@@ -99,7 +100,7 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.Garage = other.Garage;
             this.GreenArea = other.GreenArea;
         }
-        public virtual void Clone(out Property CopyProperty) => CopyProperty = new Property(this);
+        public void Clone(out PropertyDbBase Clone) => Clone = new Property(this);
         //Operátorok:
         public static bool operator<(Property a, Property b) => a.Price < b.Price;
         public static bool operator >(Property a, Property b) => a.Price > b.Price;

@@ -6,11 +6,23 @@
         xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <DataGrid ItemsSource="{Binding AllInOneAPI}" Width="auto" Height="auto" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding MAgent.Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Nézet">
+                <MenuItem Header="Teljes"/>
+                <MenuItem Header="Táblák">
+                    <MenuItem Header="Ingatlanok"/>
+                    <MenuItem Header="Tipusok"/>
+                    <MenuItem Header="Ügynökök"/>
+                </MenuItem>
+                <MenuItem Header="Speciális">
+                    <MenuItem Header="Ingatlan+Tipus"/>
+                    <MenuItem Header="Ingatlanok+Ügynökök"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Törlés"/>
+            <MenuItem Header="Módosítás"/>
+        </Menu>
+        <UserControl local:ViewWindow Show="{Binde }"/>
+    </DockPanel>
 </Window>

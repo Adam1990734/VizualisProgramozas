@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace Beadandó_Adatbázis_Feladat.Models
 {
     [Table("ugynokok")]
-    public class Agent : IComparable<Agent>
+    public class Agent : PropertyDbBase, IComparable<Agent>
     {
         //Az ügynök adatbázis ID-ja lehet ha kell
         [Column("ugynok_ID")]
@@ -50,18 +50,19 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.Status = other.Status;
         }
         public Agent() { }
-        public virtual void Copy(Agent other)
+        public void Copy(PropertyDbBase ToCopy)
         {
+            var Copy = (Agent)ToCopy;
             this.Id = null;
-            this.Name = other.Name;
-            this.PhoneNumber = other.PhoneNumber;
-            this.Status = other.Status;
+            this.Name = Copy.Name;
+            this.PhoneNumber = Copy.PhoneNumber;
+            this.Status = Copy.Status;
         }
-        public virtual void Clone(out Agent CopyAgent) => CopyAgent = new Agent(this);
+        public void Clone(out PropertyDbBase CloneAgent) => CloneAgent = new Agent(this);
 
         //Segéd függvények:
         public int CompareTo(Agent other) => this.Name.CompareTo(other.Name);
-        public bool isActive() => Status;
-        public bool hasId() { return Id == null ? false : true; }
+        public bool IsActive() => Status;
+        public bool HasId() { return Id == null ? false : true; }
     }
 }
