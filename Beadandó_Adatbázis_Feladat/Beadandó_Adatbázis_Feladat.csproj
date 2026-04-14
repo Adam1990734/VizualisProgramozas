@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <UserSecretsId>39588198-e03d-49db-9288-68bca721cfff</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,10 +17,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DbContext\appsetting.json">
+    <None Update="DbContext\appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

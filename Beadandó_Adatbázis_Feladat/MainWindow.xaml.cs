@@ -17,10 +17,57 @@ namespace Beadandó_Adatbázis_Feladat
         public MainWindow()
         {
             InitializeComponent();
-            //Csak teszt hozzáadás a DataGrid-hez:
+            Loaded += LoadAgents;
+            //Esemény kezelők:
+            AllElem.Click += LoadAll;
+            //Egy táblás:
+            PropElem.Click += LoadProperties;
+            PropAgent.Click += LoadAgents;
+            PropType.Click += LoadTypes;
+            //Specifikus:
+            SpecPropAndAgent.Click += LoadPropAndAgents;
+            SpecPropAndType.Click += LoadPropAndType;
+        }
+        private void LoadAll(object sender, EventArgs e)
+        {
             using var db = new DataBase();
-            PropertyObjects = db.getAllData.Take(10).ToList();
-
+            PropertyObjects = db.AllData;
+            Loader.LoadData(PropertyObjects);
+            this.DataContext = this;
+        }
+        private void LoadAgents(object sender, EventArgs e)
+        {
+            using var db = new DataBase();
+            PropertyObjects = db.Agents.Cast<PropertyDbBase>().ToList();
+            Loader.LoadData(PropertyObjects);
+            this.DataContext = this;
+        }
+        private void LoadProperties(object sender, EventArgs e)
+        {
+            using var db = new DataBase();
+            PropertyObjects = db.Properties.Cast<PropertyDbBase>().ToList();
+            Loader.LoadData(PropertyObjects);
+            this.DataContext = this;
+        }
+        private void LoadTypes(object sender, EventArgs e)
+        {
+            using var db = new DataBase();
+            PropertyObjects = db.PropertyTypes.Cast<PropertyDbBase>().ToList();
+            Loader.LoadData(PropertyObjects);
+            this.DataContext = this;
+        }
+        private void LoadPropAndType(object sender, EventArgs e)
+        {
+            using var db = new DataBase();
+            PropertyObjects = db.JoinProperiesAndTypes().Cast<PropertyDbBase>().ToList();
+            Loader.LoadData(PropertyObjects);
+            this.DataContext = this;
+        }
+        private void LoadPropAndAgents(object sender, EventArgs e)
+        {
+            using var db = new DataBase();
+            PropertyObjects = db.JoinProperiesAndAgents().Cast<PropertyDbBase>().ToList();
+            Loader.LoadData(PropertyObjects);
             this.DataContext = this;
         }
     }

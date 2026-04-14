@@ -13,7 +13,7 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
         {
             _Config = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("DbContext/appsetting.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("DbContext/appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
         }
         public static string ConnectionString => _Config.GetConnectionString("DefaultConnection");

@@ -24,6 +24,7 @@ namespace Beadandó_Adatbázis_Feladat.Models
             {
                 if (value == "" || value == null)
                     throw new Exception("There should be a Location given!");
+                _Location = value;
             }
         }
         [Column("kerulet")]

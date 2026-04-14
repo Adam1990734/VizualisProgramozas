@@ -59,7 +59,7 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
             ).ToList().Cast<PropertyDbBase>().ToList();
         }
         //Úgy van elkészítve hogy a getter minden adatot visszaad az Id-k nélkül
-        public List<PropertyDbBase> getAllData
+        public List<PropertyDbBase> AllData
         {
             get
             {

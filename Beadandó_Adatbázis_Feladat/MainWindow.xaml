@@ -9,20 +9,20 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Nézet">
-                <MenuItem Header="Teljes"/>
+                <MenuItem x:Name="AllElem" Header="Teljes"/>
                 <MenuItem Header="Táblák">
-                    <MenuItem Header="Ingatlanok"/>
-                    <MenuItem Header="Tipusok"/>
-                    <MenuItem Header="Ügynökök"/>
+                    <MenuItem x:Name="PropElem" Header="Ingatlanok"/>
+                    <MenuItem x:Name="PropType" Header="Tipusok"/>
+                    <MenuItem x:Name="PropAgent" Header="Ügynökök"/>
                 </MenuItem>
                 <MenuItem Header="Speciális">
-                    <MenuItem Header="Ingatlan+Tipus"/>
-                    <MenuItem Header="Ingatlanok+Ügynökök"/>
+                    <MenuItem x:Name="SpecPropAndType" Header="Ingatlan+Tipus"/>
+                    <MenuItem x:Name="SpecPropAndAgent" Header="Ingatlanok+Ügynökök"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Törlés"/>
             <MenuItem Header="Módosítás"/>
         </Menu>
-        <UserControl local:ViewWindow Show="{Binde }"/>
+        <local:ObjectLoader x:Name="Loader"/>
     </DockPanel>
 </Window>
