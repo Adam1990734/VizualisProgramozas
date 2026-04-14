@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel>
+    <DockPanel x:Name="MainPanel">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Nézet">
                 <MenuItem x:Name="AllElem" Header="Teljes"/>

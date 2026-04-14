@@ -61,7 +61,7 @@ namespace Beadandó_Adatbázis_Feladat {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Beadandó_Adatbázis_Feladat;component/objectloader.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Beadandó_Adatbázis_Feladat;V1.0.0.0;component/objectloader.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\ObjectLoader.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
