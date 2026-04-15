@@ -107,5 +107,20 @@ namespace Beadandó_Adatbázis_Feladat.Models
         public static bool operator >(Property a, Property b) => a.Price > b.Price;
         public static bool operator ==(Property a, Property b) => a.Price == b.Price;
         public static bool operator !=(Property a, Property b) => a.Price != b.Price;
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            var other = obj as Property;
+            if (other == null) return false;
+            if (other.District != this.District) return false;
+            if(other.Area != this.Area) return false;
+            if(other.GreenArea != this.GreenArea) return false;
+            if(other.CountOfRooms != this.CountOfRooms) return false;
+            if(other.Garage != this.Garage) return false;
+            if(other.Price != this.Price) return false;
+            if(other.Location  != this.Location) return false;
+            return true;
+        }
     }
 }

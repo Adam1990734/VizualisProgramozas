@@ -29,5 +29,14 @@ namespace Beadandó_Adatbázis_Feladat.Models
 
         public int CompareTo(PropertyType other) => this.Name.CompareTo(other.Name);
         public bool hasId() { return Id == null ? false : true; }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            var other = obj as PropertyType;
+            if (other == null) return false;
+            if(other.Name != this.Name) return false;
+            return true;
+        }
     }
 }

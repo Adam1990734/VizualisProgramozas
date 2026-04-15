@@ -24,5 +24,13 @@ namespace Beadandó_Adatbázis_Feladat.Models
             this.MAgent.Copy(Copy.MAgent);
             this.MProperty.Copy(Copy.MProperty);
         }
+
+        public override bool Equals(object? obj)
+        {
+            if(ReferenceEquals(this, obj)) return true;
+            var other = obj as MAgentProperty;
+            if(other == null) return false;
+            return other.MAgent.Equals(this.MAgent) && other.MProperty.Equals(this.MProperty);
+        }
     }
 }

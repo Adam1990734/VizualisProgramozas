@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Beadandó_Adatbázis_Feladat
 {
-    /// <summary>
-    /// Interaction logic for ObjectLoader.xaml
-    /// </summary>
     public partial class ObjectLoader : UserControl
     {
         public ObjectLoader()
@@ -30,18 +27,28 @@ namespace Beadandó_Adatbázis_Feladat
             if (data == null || data.Count == 0)
                 return;
 
-            Grid.Columns.Clear();
+            DataPanel.Columns.Clear();
 
             Type runtimeType = data.First().GetType();
 
             var columns = GetFlattenedColumns(runtimeType);
+
+            //Ha kell kijelölési funkció:
+            DataPanel.Columns.Add(new DataGridCheckBoxColumn
+            {
+                Header = "Kijelölés",
+                Binding = new Binding("IsChecked")
+                {
+                    Mode = BindingMode.TwoWay
+                }
+            });
 
             //Amikor összetett:
             if (runtimeType == typeof(Property) || runtimeType == typeof(Agent) || runtimeType == typeof(PropertyType))
                 foreach (var col in columns)
                 {
                     if (!col.Header.Contains("."))
-                        Grid.Columns.Add(new DataGridTextColumn
+                        DataPanel.Columns.Add(new DataGridTextColumn
                         {
                             Header = col.Header,
                             Binding = new Binding(col.Binding)
@@ -50,15 +57,16 @@ namespace Beadandó_Adatbázis_Feladat
             else 
                 foreach (var col in columns)
                     {
-                        Grid.Columns.Add(new DataGridTextColumn
+                        DataPanel.Columns.Add(new DataGridTextColumn
                         {
                            Header = col.Header.Split('.')[1],
                            Binding = new Binding(col.Binding)
                         });
                     }
-            Grid.ItemsSource = data
+            DataPanel.ItemsSource = data
                 .Select(x => FlattenObject(x, columns))
                 .ToList();
+            
         }
         private List<(string Header, string Binding)> GetFlattenedColumns(Type type)
         {
@@ -67,9 +75,7 @@ namespace Beadandó_Adatbázis_Feladat
             foreach (var prop in type.GetProperties())
             {
                 if (IsSimple(prop.PropertyType))
-                {
                     result.Add((prop.Name, prop.Name));
-                }
                 else
                 {
                     foreach (var subProp in prop.PropertyType.GetProperties())
@@ -86,11 +92,10 @@ namespace Beadandó_Adatbázis_Feladat
 
             return result;
         }
-        private object FlattenObject(
-            PropertyDbBase source,
-            List<(string Header, string Binding)> columns)
+        private object FlattenObject( PropertyDbBase source, List<(string Header, string Binding)> columns)
         {
             IDictionary<string, object?> row = new ExpandoObject();
+            row["IsChecked"] = false;
 
             foreach (var col in columns)
             {
@@ -101,16 +106,13 @@ namespace Beadandó_Adatbázis_Feladat
                 {
                     if (value == null)
                         break;
-
-                    PropertyInfo? pi =
-                        value.GetType().GetProperty(part);
-
+                    PropertyInfo? pi = value.GetType().GetProperty(part);
                     value = pi?.GetValue(value);
                 }
 
                 row[col.Binding] = value;
             }
-
+            row["Source"] = source;
             return row;
         }
         private bool IsSimple(Type type)
@@ -121,6 +123,16 @@ namespace Beadandó_Adatbázis_Feladat
                 type == typeof(decimal) ||
                 type == typeof(double) ||
                 type == typeof(DateTime);
+        }
+        public List<PropertyDbBase> GetSelectedObjects()
+        {
+
+            return DataPanel.ItemsSource
+                .Cast<IDictionary<string, object?>>()
+                .Where(r => r.TryGetValue("IsChecked", out var v) && (bool)v)
+                .Select(r => r["__Source"])
+                .Cast<PropertyDbBase>()
+                .ToList();
         }
     }
 }

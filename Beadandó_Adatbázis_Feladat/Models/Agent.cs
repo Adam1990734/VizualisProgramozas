@@ -64,5 +64,16 @@ namespace Beadandó_Adatbázis_Feladat.Models
         public int CompareTo(Agent other) => this.Name.CompareTo(other.Name);
         public bool IsActive() => Status;
         public bool HasId() { return Id == null ? false : true; }
+
+        public override bool Equals(object? obj)
+        {
+            if(ReferenceEquals(this, obj)) return true;
+            var other = obj as Agent;
+            if (other == null) return false;
+            if (other.Name != this.Name) return false;
+            if(other.PhoneNumber != this.PhoneNumber) return false;
+            if(other.Status != this.Status) return false;
+            return true;
+        }
     }
 }

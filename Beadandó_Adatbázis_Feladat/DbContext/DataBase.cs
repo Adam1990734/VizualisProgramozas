@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Text;
 using Beadandó_Adatbázis_Feladat.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +20,7 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
             if(!options.IsConfigured)
                 options.UseSqlServer(DbContext.Config.ConnectionString);
         }
-        public List<MAgentProperty> JoinProperiesAndAgents()
+        public List<PropertyDbBase> JoinProperiesAndAgents()
         {
             return Properties.Join(
                 Agents,
@@ -29,9 +31,9 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
                     MAgent = agent,
                     MProperty = prop
                 }
-            ).ToList();
+            ).Cast<PropertyDbBase>().ToList();
         }
-        public List<MTypeProperty> JoinProperiesAndTypes()
+        public List<PropertyDbBase> JoinProperiesAndTypes()
         {
             return Properties.Join(
                 PropertyTypes,
@@ -42,11 +44,11 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
                     MProperty = prop,
                     MPropertyType = type
                 }
-            ).ToList();
+            ).Cast<PropertyDbBase>().ToList();
         }
         public List<PropertyDbBase> JoinAllTable()
         {
-            return JoinProperiesAndTypes().Join(
+            return JoinProperiesAndTypes().Cast<MTypeProperty>().Join(
                 Agents,
                 propAndType => propAndType.MProperty.AgentId,
                 agent => agent.Id,
@@ -56,7 +58,7 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
                     MProperty = propAndType.MProperty,
                     MPropertyType = propAndType.MPropertyType
                 }
-            ).ToList().Cast<PropertyDbBase>().ToList();
+            ).Cast<PropertyDbBase>().ToList();
         }
         //Úgy van elkészítve hogy a getter minden adatot visszaad az Id-k nélkül
         public List<PropertyDbBase> AllData
@@ -66,12 +68,51 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
                 return JoinAllTable().Cast<MAgentPropertyType>().Select(
                     record => new MAgentPropertyType()
                     {
-                        MAgent = new Agent(record.MAgent),
-                        MProperty = new Property(record.MProperty),
-                        MPropertyType = new PropertyType(record.MPropertyType)
+                        MAgent = record.MAgent,
+                        MProperty = record.MProperty,
+                        MPropertyType = record.MPropertyType
                     }
                 ).Cast<PropertyDbBase>().ToList();
             }
+        }
+        //Törlés:
+        public void DeleteObject<T>(T Object)//Ezt le lehet egyszerűsíteni az Equals függvénnyel
+        {
+            if (Object.GetType() == null)
+                throw new Exception("The specified ojbect type does not exsists!");
+            if (Object.GetType() == typeof(Property))
+                DeleteProperty(Object as Property);
+            else if (Object.GetType() == typeof(PropertyType))
+                throw new NotImplementedException();
+            else if (Object.GetType() == typeof(Agent))
+                throw new NotImplementedException();
+        }
+        private void DeleteProperty(Property? Prop)
+        {
+            if (Prop == null)
+                throw new Exception("The given object is not valid!");
+            if (this.Database.CanConnect())
+                throw new Exception("The Database is not connected!");
+            this.Remove(this.Properties.Where(Record => Record.Id == 0));
+            this.SaveChanges();
+        }
+        private void DeletePropertyType(int Id)
+        {
+            if (Id < 0)
+                throw new Exception("The given Id is out of Id range");
+            if (this.Database.CanConnect())
+                throw new Exception("The Database is not connected!");
+            this.Remove(this.PropertyTypes.Where(Record => Record.Id == Id));
+            this.SaveChanges();
+        }
+        private void DeleteAgent(int Id)
+        {
+            if (Id < 0)
+                throw new Exception("The given Id is out of Id range");
+            if (this.Database.CanConnect())
+                throw new Exception("The Database is not connected!");
+            this.Remove(this.Agents.Where(Record => Record.Id == Id));
+            this.SaveChanges();
         }
     }
 }

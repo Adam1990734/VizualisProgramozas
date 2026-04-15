@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace Beadandó_Adatbázis_Feladat
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         //========================= Ablak API Elemek =========================
@@ -105,14 +102,16 @@ namespace Beadandó_Adatbázis_Feladat
         private void NoDatabaseConnect()
         {
             MainPanel.Children.Remove(MainPanel.Children[1]);
-            Label label = new Label();
-            label.HorizontalAlignment = HorizontalAlignment.Center;
-            label.VerticalAlignment = VerticalAlignment.Center;
-            label.FontSize = 22;
+            Label label = new Label()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 22
+            };
             label.Content = new TextBlock()
             {
                 Text = "AZ ADATBÁZIS NEM ELÉRHETŐ VAGY HIBÁSAN VAN MEGADVA!",
-                TextWrapping = TextWrapping.Wrap
+                TextWrapping = TextWrapping.Wrap,
             };
             MainPanel.Children.Add(label);
         }

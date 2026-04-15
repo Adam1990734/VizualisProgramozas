@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
              mc:Ignorable="d">
     <Grid>
-        <DataGrid x:Name="Grid"
+        <DataGrid x:Name="DataPanel"
                   AutoGenerateColumns="False"
-                  IsReadOnly="True"
+                  IsReadOnly="False"
                   CanUserSortColumns="True"/>
     </Grid>
 </UserControl>
