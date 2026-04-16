@@ -76,43 +76,30 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
             }
         }
         //Törlés:
-        public void DeleteObject<T>(T Object)//Ezt le lehet egyszerűsíteni az Equals függvénnyel
+        public void DeleteObject(List<PropertyDbBase> ToDelete)
         {
-            if (Object.GetType() == null)
-                throw new Exception("The specified ojbect type does not exsists!");
-            if (Object.GetType() == typeof(Property))
-                DeleteProperty(Object as Property);
-            else if (Object.GetType() == typeof(PropertyType))
-                throw new NotImplementedException();
-            else if (Object.GetType() == typeof(Agent))
-                throw new NotImplementedException();
-        }
-        private void DeleteProperty(Property? Prop)
-        {
-            if (Prop == null)
-                throw new Exception("The given object is not valid!");
-            if (this.Database.CanConnect())
-                throw new Exception("The Database is not connected!");
-            this.Remove(this.Properties.Where(Record => Record.Id == 0));
-            this.SaveChanges();
-        }
-        private void DeletePropertyType(int Id)
-        {
-            if (Id < 0)
-                throw new Exception("The given Id is out of Id range");
-            if (this.Database.CanConnect())
-                throw new Exception("The Database is not connected!");
-            this.Remove(this.PropertyTypes.Where(Record => Record.Id == Id));
-            this.SaveChanges();
-        }
-        private void DeleteAgent(int Id)
-        {
-            if (Id < 0)
-                throw new Exception("The given Id is out of Id range");
-            if (this.Database.CanConnect())
-                throw new Exception("The Database is not connected!");
-            this.Remove(this.Agents.Where(Record => Record.Id == Id));
-            this.SaveChanges();
+            if (!this.Database.CanConnect())
+                throw new Exception("Delete: The databes is unable to conncet to!");
+            if (ToDelete == null || ToDelete.Count == 0)
+                throw new Exception("Delete: The specified ojbect type does not exsists!");
+            //============================== Speciális esetek ==============================
+            var RuntimeType = ToDelete[0].GetType();
+            if (RuntimeType == typeof(Agent) || RuntimeType == typeof(Property) || RuntimeType == typeof(PropertyType))
+                this.RemoveRange(ToDelete);
+            else
+            {
+                //Ömlesztett lista mely tartalmaz miden property elemet az összetett objektumokból
+                this.RemoveRange(
+                ToDelete.SelectMany(record =>
+                    record.GetType().GetProperties()
+                    .Select(prop => prop.GetValue(record))
+                )
+                .Where(rv => rv != null)
+                .Cast<Object>()
+                .ToList()
+                );
+                this.SaveChanges();
+            }
         }
     }
 }

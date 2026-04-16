@@ -18,40 +18,45 @@ namespace Beadandó_Adatbázis_Feladat
 {
     public partial class ObjectLoader : UserControl
     {
+        private bool Selectable;
         public ObjectLoader()
         {
             InitializeComponent();
+            this.Selectable = false;
         }
-        public void LoadData(List<PropertyDbBase> data)
+        public void LoadData(List<PropertyDbBase> Loadable, bool IsSelectable = true)
         {
-            if (data == null || data.Count == 0)
+            if (Loadable == null || Loadable.Count == 0)
                 return;
 
+            Selectable = IsSelectable;
             DataPanel.Columns.Clear();
 
-            Type runtimeType = data.First().GetType();
+            Type RuntimeType = Loadable.First().GetType();
 
-            var columns = GetFlattenedColumns(runtimeType);
+            var columns = GetFlattenedColumns(RuntimeType);
 
             //Ha kell kijelölési funkció:
-            DataPanel.Columns.Add(new DataGridCheckBoxColumn
-            {
-                Header = "Kijelölés",
-                Binding = new Binding("IsChecked")
-                {
-                    Mode = BindingMode.TwoWay
-                }
-            });
+            if(IsSelectable)
+                DataPanel.Columns.Add(new DataGridCheckBoxColumn {
+                    Header = "Kijelölés",
+                    Binding = new Binding("IsChecked")
+                    {
+                        Mode = BindingMode.TwoWay
+                    },
+                    IsReadOnly = false
+                });
 
             //Amikor összetett:
-            if (runtimeType == typeof(Property) || runtimeType == typeof(Agent) || runtimeType == typeof(PropertyType))
+            if (RuntimeType == typeof(Property) || RuntimeType == typeof(Agent) || RuntimeType == typeof(PropertyType))
                 foreach (var col in columns)
                 {
                     if (!col.Header.Contains("."))
                         DataPanel.Columns.Add(new DataGridTextColumn
                         {
                             Header = col.Header,
-                            Binding = new Binding(col.Binding)
+                            Binding = new Binding(col.Binding),
+                            IsReadOnly = true
                         });
                 }
             else 
@@ -60,10 +65,11 @@ namespace Beadandó_Adatbázis_Feladat
                         DataPanel.Columns.Add(new DataGridTextColumn
                         {
                            Header = col.Header.Split('.')[1],
-                           Binding = new Binding(col.Binding)
+                           Binding = new Binding(col.Binding),
+                           IsReadOnly = true
                         });
                     }
-            DataPanel.ItemsSource = data
+            DataPanel.ItemsSource = Loadable
                 .Select(x => FlattenObject(x, columns))
                 .ToList();
             
@@ -95,7 +101,9 @@ namespace Beadandó_Adatbázis_Feladat
         private object FlattenObject( PropertyDbBase source, List<(string Header, string Binding)> columns)
         {
             IDictionary<string, object?> row = new ExpandoObject();
-            row["IsChecked"] = false;
+
+            if(Selectable)
+                row["IsChecked"] = false;
 
             foreach (var col in columns)
             {
@@ -126,11 +134,12 @@ namespace Beadandó_Adatbázis_Feladat
         }
         public List<PropertyDbBase> GetSelectedObjects()
         {
-
+            if (!Selectable)
+                throw new Exception("The current table has no selction column!");
             return DataPanel.ItemsSource
                 .Cast<IDictionary<string, object?>>()
                 .Where(r => r.TryGetValue("IsChecked", out var v) && (bool)v)
-                .Select(r => r["__Source"])
+                .Select(r => r["Source"])
                 .Cast<PropertyDbBase>()
                 .ToList();
         }
