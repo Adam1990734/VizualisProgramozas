@@ -1,0 +1,43 @@
+﻿<Window x:Class="Beadandó_Adatbázis_Feladat.AddNew"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
+        mc:Ignorable="d"
+        Title="AddNew" Height="350" Width="350">
+    <DockPanel>
+        <Label
+            DockPanel.Dock="Top"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+        >Új elem felévétele</Label>
+        <Grid MaxHeight="150px" DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SaveBtn" Grid.Column="0">Mentés</Button>
+            <Button x:Name="CancelBtn" Grid.Column="1">Mégse</Button>
+        </Grid>
+        <Grid x:Name="MainPanel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="29*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0">Válasszon táblá:</Label>
+                <ComboBox x:Name="MenuOptions" Grid.Column="1">
+                    <ComboBoxItem Content="Ingatlan"/>
+                    <ComboBoxItem Content="Típus"/>
+                    <ComboBoxItem Content="Ügynök"/>
+                </ComboBox>
+            </Grid>
+            <Grid x:Name="InputPanel" Grid.Row="1"></Grid>
+        </Grid>
+    </DockPanel>
+</Window>

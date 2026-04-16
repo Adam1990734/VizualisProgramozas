@@ -6,11 +6,11 @@ namespace Beadandó_Adatbázis_Feladat.Models
 {
     public sealed class MAgentPropertyType : PropertyDbBase
     {
-        //Ügynök adatai:
-        public Agent MAgent { get; set; }
-
         //Ingatlan adatai:
         public Property MProperty { get; set; }
+
+        //Ügynök adatai:
+        public Agent MAgent { get; set; }
         
         //Típusok:
         public PropertyType MPropertyType { get; set; }

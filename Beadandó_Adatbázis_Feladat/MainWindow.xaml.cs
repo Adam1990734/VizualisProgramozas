@@ -9,6 +9,8 @@ namespace Beadandó_Adatbázis_Feladat
     {
         //========================= Ablak API Elemek =========================
         //Lekéredéz container (minden objectet elbír):
+        internal enum ModeOfLoad { ALL, AGENT, PROP, TYPE, AandP, PTYandP }
+        ModeOfLoad LastLoadMode;
         public List<PropertyDbBase>? PropertyObjects { get; set; }
         //====================================================================
         //Inicializálás:
@@ -25,8 +27,14 @@ namespace Beadandó_Adatbázis_Feladat
             //Specifikus:
             SpecPropAndAgent.Click += LoadPropAndAgents;
             SpecPropAndType.Click += LoadPropAndType;
+            //Törlés:
+            DeleteBtn.Click += DeleteSeleceted;
+
             //=======================================================================
+
+            Info.Click += (object sender, RoutedEventArgs e) => MessageBox.Show("Készítették: Pálmai Ádám (YB5SIV) és Kiss Ádám (P8D48P)");
         }
+        //==================================== Betöltő Események ====================================
         private void LoadAll(object sender, EventArgs e)
         {
             using var db = new DataBase();
@@ -37,6 +45,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             PropertyObjects = db.AllData;
             Loader.LoadData(PropertyObjects);
+            LastLoadMode = ModeOfLoad.ALL;
             this.DataContext = this;
         }
         private void LoadAgents(object sender, EventArgs e)
@@ -49,6 +58,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             PropertyObjects = db.Agents.Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
+            LastLoadMode = ModeOfLoad.AGENT;
             this.DataContext = this;
         }
         private void LoadProperties(object sender, EventArgs e)
@@ -61,6 +71,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             PropertyObjects = db.Properties.Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
+            LastLoadMode = ModeOfLoad.PROP;
             this.DataContext = this;
         }
         private void LoadTypes(object sender, EventArgs e)
@@ -73,6 +84,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             PropertyObjects = db.PropertyTypes.Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
+            LastLoadMode = ModeOfLoad.TYPE;
             this.DataContext = this;
         }
         private void LoadPropAndType(object sender, EventArgs e)
@@ -85,6 +97,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             PropertyObjects = db.JoinProperiesAndTypes().Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
+            LastLoadMode = ModeOfLoad.PTYandP;
             this.DataContext = this;
         }
         private void LoadPropAndAgents(object sender, EventArgs e)
@@ -97,6 +110,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             PropertyObjects = db.JoinProperiesAndAgents().Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
+            LastLoadMode = ModeOfLoad.AandP;
             this.DataContext = this;
         }
         private void NoDatabaseConnect()
@@ -114,6 +128,59 @@ namespace Beadandó_Adatbázis_Feladat
                 TextWrapping = TextWrapping.Wrap,
             };
             MainPanel.Children.Add(label);
+        }
+        //Utolsó hívás meghívása úrja töltés céljából
+        private void LoadLastChoice()
+        {
+            switch(LastLoadMode)
+            {
+                case ModeOfLoad.ALL:
+                    LoadAll(this, EventArgs.Empty);
+                    break;
+                case ModeOfLoad.PTYandP:
+                    LoadPropAndType(this, EventArgs.Empty);
+                    break;
+                case ModeOfLoad.AandP:
+                    LoadPropAndAgents(this, EventArgs.Empty);
+                    break;
+                case ModeOfLoad.PROP:
+                    LoadProperties(this, EventArgs.Empty);
+                    break;
+                case ModeOfLoad.AGENT:
+                    LoadAgents(this, EventArgs.Empty);
+                    break;
+                case ModeOfLoad.TYPE:
+                    LoadTypes(this, EventArgs.Empty);
+                    break;
+            }
+        }
+        //==================================== Törlés esemény ====================================
+        private void DeleteSeleceted(object sender, EventArgs e)
+        {
+            using var db = new DataBase();
+            try
+            {
+                if(!db.Database.CanConnect())
+                {
+                    NoDatabaseConnect();
+                    return;
+                }
+                db.DeleteObjects(Loader.GetSelectedObjects());
+                LoadLastChoice();
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        //==================================== Hozzáadás esemény ====================================
+        private void CreateNew()
+        {
+            //Ide kell kód
+        }
+        //==================================== Frissítés esemény ====================================
+        private void UpdateOld()
+        {
+            //Ide kell kód
         }
     }
 }

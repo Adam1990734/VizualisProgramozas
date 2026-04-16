@@ -76,10 +76,8 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
             }
         }
         //Törlés:
-        public void DeleteObject(List<PropertyDbBase> ToDelete)
+        public void DeleteObjects(List<PropertyDbBase> ToDelete)
         {
-            if (!this.Database.CanConnect())
-                throw new Exception("Delete: The databes is unable to conncet to!");
             if (ToDelete == null || ToDelete.Count == 0)
                 throw new Exception("Delete: The specified ojbect type does not exsists!");
             //============================== Speciális esetek ==============================
@@ -90,16 +88,16 @@ namespace Beadandó_Adatbázis_Feladat.DbContext
             {
                 //Ömlesztett lista mely tartalmaz miden property elemet az összetett objektumokból
                 this.RemoveRange(
-                ToDelete.SelectMany(record =>
-                    record.GetType().GetProperties()
-                    .Select(prop => prop.GetValue(record))
-                )
-                .Where(rv => rv != null)
-                .Cast<Object>()
-                .ToList()
+                    ToDelete.SelectMany(record =>
+                        record.GetType().GetProperties()
+                        .Select(prop => prop.GetValue(record))
+                    )
+                    .Where(rv => rv != null && rv.GetType() == typeof(Property))
+                    .Cast<Property>()
+                    .ToList()
                 );
-                this.SaveChanges();
             }
+            this.SaveChanges();
         }
     }
 }

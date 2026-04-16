@@ -136,6 +136,8 @@ namespace Beadandó_Adatbázis_Feladat
         {
             if (!Selectable)
                 throw new Exception("The current table has no selction column!");
+            DataPanel.CommitEdit(DataGridEditingUnit.Cell, true);
+            DataPanel.CommitEdit(DataGridEditingUnit.Row, true);
             return DataPanel.ItemsSource
                 .Cast<IDictionary<string, object?>>()
                 .Where(r => r.TryGetValue("IsChecked", out var v) && (bool)v)
