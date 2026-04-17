@@ -1,18 +1,8 @@
 ﻿using Beadandó_Adatbázis_Feladat.Models;
-using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Reflection;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Beadandó_Adatbázis_Feladat
 {
@@ -34,11 +24,10 @@ namespace Beadandó_Adatbázis_Feladat
 
             Type RuntimeType = Loadable.First().GetType();
 
-            var columns = GetFlattenedColumns(RuntimeType);
-
             //Ha kell kijelölési funkció:
-            if(IsSelectable)
-                DataPanel.Columns.Add(new DataGridCheckBoxColumn {
+            if (IsSelectable)
+                DataPanel.Columns.Add(new DataGridCheckBoxColumn
+                {
                     Header = "Kijelölés",
                     Binding = new Binding("IsChecked")
                     {
@@ -49,88 +38,105 @@ namespace Beadandó_Adatbázis_Feladat
 
             //Amikor összetett:
             if (RuntimeType == typeof(Property) || RuntimeType == typeof(Agent) || RuntimeType == typeof(PropertyType))
+            {
+                var ObjectProperties = RuntimeType.GetProperties().Where(prop => !prop.Name.ToUpper().Contains("ID"));
+                foreach (var col in ObjectProperties)
+                    DataPanel.Columns.Add(new DataGridTextColumn
+                    {
+                        Header = col.Name,
+                        Binding = new Binding(col.Name),
+                        IsReadOnly = true
+                    });
+                DataPanel.ItemsSource = Loadable.Select(x =>
+                {
+                    IDictionary<string, object> Expando = new ExpandoObject();
+
+                    if (Selectable)
+                        Expando["IsChecked"] = false;
+
+                    foreach (var prop in ObjectProperties)
+                        Expando[prop.Name] = prop.GetValue(x);
+
+                    Expando["Source"] = x;
+
+                    return Expando;
+                }).ToList();
+            }
+            else
+            {
+                var columns = GetFlattenedColumns(RuntimeType);
                 foreach (var col in columns)
                 {
-                    if (!col.Header.Contains("."))
-                        DataPanel.Columns.Add(new DataGridTextColumn
-                        {
-                            Header = col.Header,
-                            Binding = new Binding(col.Binding),
-                            IsReadOnly = true
-                        });
-                }
-            else 
-                foreach (var col in columns)
+                    DataPanel.Columns.Add(new DataGridTextColumn
                     {
-                        DataPanel.Columns.Add(new DataGridTextColumn
-                        {
-                           Header = col.Header.Split('.')[1],
-                           Binding = new Binding(col.Binding),
-                           IsReadOnly = true
-                        });
-                    }
-            DataPanel.ItemsSource = Loadable
-                .Select(x => FlattenObject(x, columns))
-                .ToList();
-            
+                        Header = col.Header.Split('.')[1],
+                        Binding = new Binding(col.Binding),
+                        IsReadOnly = true
+                    });
+                }
+                DataPanel.ItemsSource = Loadable
+                    .Select(x => FlattenObject(x, columns))
+                    .ToList();
+            }
         }
-        private List<(string Header, string Binding)> GetFlattenedColumns(Type type)
+        private List<(string Header, string Binding)> GetFlattenedColumns(Type GivenType)
         {
-            var result = new List<(string, string)>();
+            var Result = new List<(string, string)>();
 
-            foreach (var prop in type.GetProperties())
+            foreach (var Prop in GivenType.GetProperties())
             {
-                if (IsSimple(prop.PropertyType))
-                    result.Add((prop.Name, prop.Name));
+                if (IsSimple(Prop.PropertyType))
+                    Result.Add((Prop.Name, Prop.Name));
                 else
                 {
-                    foreach (var subProp in prop.PropertyType.GetProperties())
+                    foreach (var SubProp in Prop.PropertyType.GetProperties())
                     {
-                        if (IsSimple(subProp.PropertyType))
+                        if (IsSimple(SubProp.PropertyType))
                         {
-                            string binding = $"{prop.Name}_{subProp.Name}";
-                            string header = $"{prop.Name}.{subProp.Name}";
-                            result.Add((header, binding));
+                            string Binding = $"{Prop.Name}_{SubProp.Name}";
+                            string Header = $"{Prop.Name}.{SubProp.Name}";
+                            Result.Add((Header, Binding));
                         }
                     }
                 }
             }
 
-            return result;
+            return Result;
         }
-        private object FlattenObject( PropertyDbBase source, List<(string Header, string Binding)> columns)
+        private object FlattenObject( PropertyDbBase Source, List<(string Header, string Binding)> Columns)
         {
-            IDictionary<string, object?> row = new ExpandoObject();
+            IDictionary<string, object?> Row = new ExpandoObject();
 
             if(Selectable)
-                row["IsChecked"] = false;
+                Row["IsChecked"] = false;
 
-            foreach (var col in columns)
+            foreach (var Col in Columns)
             {
-                object? value = source;
-                string[] path = col.Binding.Split('_');
+                object? Value = Source;
+                string[] Path = Col.Binding.Split('_');
 
-                foreach (var part in path)
+                foreach (var Part in Path)
                 {
-                    if (value == null)
+                    if (Value == null)
                         break;
-                    PropertyInfo? pi = value.GetType().GetProperty(part);
-                    value = pi?.GetValue(value);
+                    PropertyInfo? pi = Value.GetType().GetProperty(Part);
+                    Value = pi?.GetValue(Value);
                 }
 
-                row[col.Binding] = value;
+                Row[Col.Binding] = Value;
             }
-            row["Source"] = source;
-            return row;
+            Row["Source"] = Source;
+
+            return Row;
         }
-        private bool IsSimple(Type type)
+        private bool IsSimple(Type Type)
         {
             return
-                type.IsPrimitive ||
-                type == typeof(string) ||
-                type == typeof(decimal) ||
-                type == typeof(double) ||
-                type == typeof(DateTime);
+                Type.IsPrimitive ||
+                Type == typeof(string) ||
+                Type == typeof(decimal) ||
+                Type == typeof(double) ||
+                Type == typeof(DateTime);
         }
         public List<PropertyDbBase> GetSelectedObjects()
         {

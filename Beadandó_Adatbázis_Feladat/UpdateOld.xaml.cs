@@ -14,8 +14,11 @@ namespace Beadandó_Adatbázis_Feladat
         public UpdateOld(PropertyDbBase DatabaseObject)
         {
             InitializeComponent();
+
+            //===================== Esemény kezelők =====================
             this.SaveBtn.Click += OnSave;
             this.CancelBtn.Click += OnCancel;
+            //===========================================================
 
             if (DatabaseObject == null)
                 throw new Exception("Unable to change on a null element!");
