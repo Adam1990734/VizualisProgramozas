@@ -91,7 +91,8 @@ namespace Beadandó_Adatbázis_Feladat.Models
         public void Copy(PropertyDbBase ToCopy) {
             var other = (Property)ToCopy;
             //Biztonságosan csak hogy ne lehesse "adatlopás"
-            this.Id = this.TypeId = this.AgentId = null;
+            this.TypeId = other.TypeId;
+            this.AgentId = other.AgentId;
 
             this.Location = other.Location;
             this.District = other.District;

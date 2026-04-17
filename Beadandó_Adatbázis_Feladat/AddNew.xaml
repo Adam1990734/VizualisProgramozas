@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
         mc:Ignorable="d"
-        Title="Új felvétele" Height="450" Width="350">
+        Title="Új elem felvétele" Height="450" Width="350">
     <DockPanel>
         <Label
+            x:Name="MainLabel"
             DockPanel.Dock="Top"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -29,17 +30,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0">Válasszon táblá:</Label>
                 <ComboBox x:Name="MenuOptions" Grid.Column="1">
                     <ComboBoxItem x:Name="ChosseProp" Content="Ingatlan"/>
                     <ComboBoxItem x:Name="ChooseType" Content="Típus"/>
                     <ComboBoxItem x:Name="ChooseAgent" Content="Ügynök"/>
-                </ComboBox>
-                <ComboBox x:Name="Mode" Grid.Column="2">
-                    <ComboBoxItem x:Name="CreateBtn" Content="Új"/>
-                    <ComboBoxItem x:Name="UpdateBtn" Content="Módosítás"/>
                 </ComboBox>
             </Grid>
             <Grid x:Name="InputPanel" Grid.Row="1">

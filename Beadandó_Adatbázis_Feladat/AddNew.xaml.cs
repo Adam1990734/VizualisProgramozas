@@ -2,16 +2,17 @@
 using Beadandó_Adatbázis_Feladat.Models;
 using Beadandó_Adatbázis_Feladat.DbContext;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Beadandó_Adatbázis_Feladat
 {
     public partial class AddNew : Window
     {
-        internal enum WindowMode { CREATE, UPDATE }
         internal enum OptionsToCreate { PROP, TYPE, AGENT }
 
         private OptionsToCreate CurrentlyShowing;
-        private WindowMode WorkingMode;
+
+        private PropertyDbBase ObjectToUpdate;
         public AddNew()
         {
             InitializeComponent();
@@ -19,9 +20,6 @@ namespace Beadandó_Adatbázis_Feladat
             //========================== Esemény kezelők ==========================
             this.SaveBtn.Click += OnSave;
             this.CancelBtn.Click += OnCancel;
-
-            this.CreateBtn.Selected += (object sender, RoutedEventArgs e) => { WorkingMode = WindowMode.CREATE; };
-            this.UpdateBtn.Selected += (object sender, RoutedEventArgs e) => { WorkingMode = WindowMode.UPDATE; };
 
             this.ChosseProp.Selected += (object sender, RoutedEventArgs e) => ShowPanel(OptionsToCreate.PROP);
             this.ChooseType.Selected += (object sender, RoutedEventArgs e) => ShowPanel(OptionsToCreate.TYPE);
@@ -49,7 +47,7 @@ namespace Beadandó_Adatbázis_Feladat
         private void ShowPanel(OptionsToCreate ToShow)
         {
             HideCurrent();
-            switch(ToShow)
+            switch (ToShow)
             {
                 case OptionsToCreate.PROP:
                     this.PropertyPanel.Visibility = Visibility.Visible;
@@ -82,10 +80,9 @@ namespace Beadandó_Adatbázis_Feladat
         //========================== Input olvasás függvények ==========================
         private Dictionary<string, object?> ReadInput(OptionsToCreate ChoosenType)
         {
-            switch(ChoosenType)
+            switch (ChoosenType)
             {
                 case OptionsToCreate.PROP:
-                    var valami = (this.GarageInput.SelectedItem as ComboBoxItem).Tag.ToString();
                     return new Dictionary<string, object?>
                     {
                         { "Location", this.LoacationInput.Text.Equals("") ? null : this.LoacationInput.Text },
@@ -101,7 +98,7 @@ namespace Beadandó_Adatbázis_Feladat
                 case OptionsToCreate.TYPE:
                     return new Dictionary<string, object?>
                     {
-                        { "TypeName", this.PropTypeNameInput.Text }
+                        { "Name", this.PropTypeNameInput.Text }
                     };
                 case OptionsToCreate.AGENT:
                     return new Dictionary<string, object?>
@@ -114,15 +111,107 @@ namespace Beadandó_Adatbázis_Feladat
                     throw new Exception("Unknow type has given!");
             }
         }
+        //========================== Mód váltások és változás kezelés ==========================
+        public List<TextBox> GetAllTexBoxes(Grid Root)
+        {
+            var Result = new List<TextBox>();
+
+            if (Root == null)
+                return Result;
+
+            FindTextBoxes(Root, Result);
+            return Result;
+        }
+
+        private void FindTextBoxes(DependencyObject Parent, List<TextBox> Result)
+        {
+            int ChildCount = VisualTreeHelper.GetChildrenCount(Parent);
+
+            for (int i = 0; i < ChildCount; i++)
+            {
+                DependencyObject Child = VisualTreeHelper.GetChild(Parent, i);
+
+                if (Child is TextBox tb)
+                    Result.Add(tb);
+
+                FindTextBoxes(Child, Result);
+            }
+        }
+        private void OnReset()
+        {
+            switch (CurrentlyShowing)
+            {
+                case OptionsToCreate.PROP:
+                    foreach (var Input in GetAllTexBoxes(this.PropertyPanel))
+                        Input.Text = "";
+                    return;
+                case OptionsToCreate.TYPE:
+                    foreach (var Input in GetAllTexBoxes(this.PropertyTypePanel))
+                        Input.Text = "";
+                    return;
+                case OptionsToCreate.AGENT:
+                    foreach (var Input in GetAllTexBoxes(this.AgentPanel))
+                        Input.Text = "";
+                    return;
+                default:
+                    throw new Exception("Unknown type has given!");
+            }
+        }
         //========================== Mentés és Elutasítás ==========================
         private void OnSave(object sender, EventArgs e)
         {
-            var valami = ReadInput(CurrentlyShowing);
-            return;
+            try
+            {
+                var InputData = ReadInput(CurrentlyShowing);
+                using (var db = new DataBase())
+                {
+                    if (!db.Database.CanConnect())
+                        throw new Exception("Cannot connect to the database!");
+                    switch (CurrentlyShowing)
+                    {
+                        case OptionsToCreate.PROP:
+                            db.Add(new Property
+                            {
+                                TypeId = (int)InputData["Type"],
+                                AgentId = (int)InputData["Agent"],
+                                Location = (string)InputData["Location"],
+                                District = InputData["District"] == null ? null : (int)InputData["District"],
+                                Area = (int)InputData["Area"],
+                                CountOfRooms = (int)InputData["CountOfRooms"],
+                                Price = (double)InputData["Price"],
+                                Garage = (bool)InputData["Garage"],
+                                GreenArea = (bool)InputData["GreenArea"]
+                            });
+                            break;
+                        case OptionsToCreate.TYPE:
+                            db.Add(new PropertyType
+                            {
+                                Name = (string)InputData["Name"]
+                            });
+                            break;
+                        case OptionsToCreate.AGENT:
+                            db.Add(new Agent
+                            {
+                                Name = (string)InputData["Name"],
+                                PhoneNumber = InputData["Phone"] == null ? null : (string)InputData["Phone"],
+                                Status = (bool)InputData["Status"]
+                            });
+                            break;
+                        default:
+                            throw new Exception("Unknown type has given!");
+                    }
+                    db.SaveChanges();
+                    this.DialogResult = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sikeretelen mentés, hibás adat megadás!");
+            }
         }
         private void OnCancel(object sender, EventArgs e)
         {
-            this.Close();
+            this.DialogResult = false;
         }
     }
 }

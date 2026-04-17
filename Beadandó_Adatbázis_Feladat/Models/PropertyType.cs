@@ -22,7 +22,6 @@ namespace Beadandó_Adatbázis_Feladat.Models
         public void Copy(PropertyDbBase ToCopy)
         {
             var other = (PropertyType)ToCopy;
-            this.Id = null;
             this.Name = other.Name;
         }
         public void Clone(out PropertyDbBase Clone) => Clone = new PropertyType(this);

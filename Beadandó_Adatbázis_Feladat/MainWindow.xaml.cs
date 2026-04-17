@@ -17,9 +17,7 @@ namespace Beadandó_Adatbázis_Feladat
         public MainWindow()
         {
             InitializeComponent();
-            //Loaded += LoadAll;
-            var ablak = new AddNew();
-            ablak.Show();
+            Loaded += LoadAll;
             //=========================== Esemény kezelők ===========================
             AllElem.Click += LoadAll;
             //Egy táblás:
@@ -30,7 +28,9 @@ namespace Beadandó_Adatbázis_Feladat
             SpecPropAndAgent.Click += LoadPropAndAgents;
             SpecPropAndType.Click += LoadPropAndType;
             //Törlés:
-            DeleteBtn.Click += DeleteSeleceted;
+            DeleteBtn.Click += OnDelete;
+            NewBtn.Click += OnCreate;
+            UpdateBtn.Click += OnUpdate;
 
             //=======================================================================
 
@@ -46,7 +46,7 @@ namespace Beadandó_Adatbázis_Feladat
                 return;
             }
             PropertyObjects = db.AllData;
-            Loader.LoadData(PropertyObjects);
+            Loader.LoadData(PropertyObjects, false);
             LastLoadMode = ModeOfLoad.ALL;
             this.DataContext = this;
         }
@@ -98,7 +98,7 @@ namespace Beadandó_Adatbázis_Feladat
                 return;
             }
             PropertyObjects = db.JoinProperiesAndTypes().Cast<PropertyDbBase>().ToList();
-            Loader.LoadData(PropertyObjects);
+            Loader.LoadData(PropertyObjects, false);
             LastLoadMode = ModeOfLoad.PTYandP;
             this.DataContext = this;
         }
@@ -111,7 +111,7 @@ namespace Beadandó_Adatbázis_Feladat
                 return;
             }
             PropertyObjects = db.JoinProperiesAndAgents().Cast<PropertyDbBase>().ToList();
-            Loader.LoadData(PropertyObjects);
+            Loader.LoadData(PropertyObjects, false);
             LastLoadMode = ModeOfLoad.AandP;
             this.DataContext = this;
         }
@@ -157,7 +157,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
         }
         //==================================== Törlés esemény ====================================
-        private void DeleteSeleceted(object sender, EventArgs e)
+        private void OnDelete(object sender, EventArgs e)
         {
             using var db = new DataBase();
             try
@@ -175,14 +175,28 @@ namespace Beadandó_Adatbázis_Feladat
             }
         }
         //==================================== Hozzáadás esemény ====================================
-        private void CreateNew()
+        private void OnCreate(object sender, EventArgs e)
         {
-            //Ide kell kód
+            var NewElementWindow = new AddNew();
+            if (NewElementWindow.ShowDialog() == true)
+                this.ResponseForUser.Content = "Sikeres adat rögzítés!";
+            else
+                this.ResponseForUser.Content = "Sikeretelen adat felvétel!";
         }
         //==================================== Frissítés esemény ====================================
-        private void UpdateOld()
+        private void OnUpdate(object sender, EventArgs e)
         {
-            //Ide kell kód
+            var SelectedList = Loader.GetSelectedObjects();
+            if (SelectedList == null || SelectedList.Count < 1)
+            {
+                MessageBox.Show("Válasszon ki egy sort!");
+                return;
+            }
+            var UpdateElementWindow = new UpdateOld(SelectedList[0]);
+            if(UpdateElementWindow.ShowDialog() == true)
+                this.ResponseForUser.Content = "Sikeres adat rögzítés!";
+            else
+                this.ResponseForUser.Content = "Sikeretelen adat felvétel!";
         }
     }
 }

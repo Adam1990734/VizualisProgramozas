@@ -52,11 +52,10 @@ namespace Beadandó_Adatbázis_Feladat.Models
         public Agent() { }
         public void Copy(PropertyDbBase ToCopy)
         {
-            var Copy = (Agent)ToCopy;
-            this.Id = null;
-            this.Name = Copy.Name;
-            this.PhoneNumber = Copy.PhoneNumber;
-            this.Status = Copy.Status;
+            var other = (Agent)ToCopy;
+            this.Name = other.Name;
+            this.PhoneNumber = other.PhoneNumber;
+            this.Status = other.Status;
         }
         public void Clone(out PropertyDbBase CloneAgent) => CloneAgent = new Agent(this);
 

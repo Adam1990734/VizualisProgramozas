@@ -25,6 +25,7 @@
             <MenuItem x:Name="DeleteBtn" Header="Törlés"/>
             <MenuItem x:Name="UpdateBtn" Header="Módosítás"/>
         </Menu>
+        <Label x:Name="ResponseForUser" DockPanel.Dock="Bottom" Height="auto"></Label>
         <local:ObjectLoader x:Name="Loader"/>
     </DockPanel>
 </Window>

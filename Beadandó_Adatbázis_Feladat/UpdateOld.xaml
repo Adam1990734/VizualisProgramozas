@@ -1,0 +1,116 @@
+﻿<Window x:Class="Beadandó_Adatbázis_Feladat.UpdateOld"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
+        mc:Ignorable="d"
+        Title="Elem módosítása" Height="450" Width="350">
+    <DockPanel x:Name="MainPanel">
+        <Label
+            x:Name="MainLabel"
+            DockPanel.Dock="Top"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            MinHeight="40px"
+        ></Label>
+        <Grid MaxHeight="150px" DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SaveBtn" Grid.Column="0">Mentés</Button>
+            <Button x:Name="CancelBtn" Grid.Column="1">Mégse</Button>
+        </Grid>
+        <Grid x:Name="InputPanel" Grid.Row="1">
+            <Grid x:Name="PropertyPanel" Visibility="Collapsed">
+                <!-- 9 soros -->
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- Sor definíciók: -->
+                <DockPanel Grid.Row="0">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Helység:</Label>
+                    <TextBox x:Name="LoacationInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="1">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Kerület:</Label>
+                    <TextBox x:Name="DistrictInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="2">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Területe:</Label>
+                    <TextBox x:Name="AreaInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="3">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Szobaszám:</Label>
+                    <TextBox x:Name="CountOfRoomsInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="4">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Ár:</Label>
+                    <TextBox x:Name="PriceInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="5">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Garázs:</Label>
+                    <ComboBox x:Name="GarageInput" MaxHeight="30px">
+                        <ComboBoxItem Content="Igen" Tag="True"/>
+                        <ComboBoxItem Content="Nem" Tag="False"/>
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Row="6">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Zöldövezete:</Label>
+                    <ComboBox x:Name="GreenAreaInput" MaxHeight="30px">
+                        <ComboBoxItem Content="Igen" Tag="True"/>
+                        <ComboBoxItem Content="Nem" Tag="False"/>
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Row="7">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Típusa:</Label>
+                    <ComboBox x:Name="PropTypesInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="8">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Ügynöke:</Label>
+                    <ComboBox x:Name="AgentsInput" MaxHeight="30px"/>
+                </DockPanel>
+            </Grid>
+            <Grid x:Name="PropertyTypePanel" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Lakás típusa:</Label>
+                    <TextBox x:Name="PropTypeNameInput" MaxHeight="30px"/>
+                </DockPanel>
+            </Grid>
+            <Grid x:Name="AgentPanel" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Teljes név:</Label>
+                    <TextBox x:Name="AgentNameInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="1">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Telefon:</Label>
+                    <TextBox x:Name="AgentPhoneInput" MaxHeight="30px"/>
+                </DockPanel>
+                <DockPanel Grid.Row="2">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Elérhető-e:</Label>
+                    <ComboBox x:Name="AgentStatusInput" MaxHeight="30px">
+                        <ComboBoxItem Content="Igen" Tag="True"/>
+                        <ComboBoxItem Content="Nem" Tag="False"/>
+                    </ComboBox>
+                </DockPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
