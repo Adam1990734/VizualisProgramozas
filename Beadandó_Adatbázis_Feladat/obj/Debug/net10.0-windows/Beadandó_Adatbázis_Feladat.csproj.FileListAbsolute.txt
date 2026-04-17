@@ -481,3 +481,5 @@ C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\b
 C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\ObjectLoader.g.cs
 C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\ObjectLoader.baml
+C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\AddNew.g.cs
+C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\AddNew.baml

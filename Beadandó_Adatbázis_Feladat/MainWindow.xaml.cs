@@ -17,7 +17,9 @@ namespace Beadandó_Adatbázis_Feladat
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += LoadAll;
+            //Loaded += LoadAll;
+            var ablak = new AddNew();
+            ablak.Show();
             //=========================== Esemény kezelők ===========================
             AllElem.Click += LoadAll;
             //Egy táblás:
