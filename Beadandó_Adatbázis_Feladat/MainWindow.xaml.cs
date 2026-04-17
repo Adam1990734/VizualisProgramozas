@@ -192,9 +192,17 @@ namespace Beadandó_Adatbázis_Feladat
                 MessageBox.Show("Válasszon ki egy sort!");
                 return;
             }
+            else if(SelectedList.Count > 1)
+            {
+                MessageBox.Show("Csak egy elemet lehet egyszerre módosítani!");
+                return;
+            }
             var UpdateElementWindow = new UpdateOld(SelectedList[0]);
-            if(UpdateElementWindow.ShowDialog() == true)
+            if (UpdateElementWindow.ShowDialog() == true)
+            {
                 this.ResponseForUser.Content = "Sikeres adat rögzítés!";
+                LoadLastChoice();
+            }
             else
                 this.ResponseForUser.Content = "Sikeretelen adat felvétel!";
         }

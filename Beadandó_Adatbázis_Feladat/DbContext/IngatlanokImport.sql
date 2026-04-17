@@ -14,7 +14,7 @@ CREATE TABLE ingatlanok (
     ar FLOAT NOT NULL,
     garazs BIT NOT NULL,
     zoldovezet BIT NOT NULL,
-    fk_ugynokID INT NOT NULL
+    fk_ugynokID INT
 );
 
 ------------------------------------------------------------
@@ -172,7 +172,7 @@ ADD CONSTRAINT PK_tipusok PRIMARY KEY (tipus_ID);
 ALTER TABLE ugynokok
 ADD CONSTRAINT PK_ugynokok PRIMARY KEY (ugynok_ID);
 
-alter table ingatlanok add constraint FK_ugynokok foreign key (fk_ugynokID) references ugynokok(ugynok_ID);
-alter table ingatlanok add constraint FK_tipusok foreign key (fk_tipusID) references tipusok(tipus_ID);
+alter table ingatlanok add constraint FK_ugynokok foreign key (fk_ugynokID) references ugynokok(ugynok_ID) ON DELETE SET NULL;
+alter table ingatlanok add constraint FK_tipusok foreign key (fk_tipusID) references tipusok(tipus_ID) ON DELETE CASCADE;
 
 Go
