@@ -19,7 +19,7 @@ namespace Beadandó_Adatbázis_Feladat
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += LoadAgents;
+            Loaded += LoadAll;
             //=========================== Esemény kezelők ===========================
             AllElem.Click += LoadAll;
             //Egy táblás:
@@ -168,6 +168,12 @@ namespace Beadandó_Adatbázis_Feladat
                     break;
             }
         }
+        private void ShowResponse(string Message)
+        {
+            this.ResponseForUser.Content = Message;
+            this.ResponseForUser.Visibility = Visibility.Visible;
+        }
+        private void HideResponse() => this.ResponseForUser.Visibility = Visibility.Collapsed;
         //==================================== Törlés esemény ====================================
         private void OnDelete(object sender, EventArgs e)
         {
@@ -183,7 +189,7 @@ namespace Beadandó_Adatbázis_Feladat
                 LoadLastChoice();
             } catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ShowResponse("Sikeretelen törlés!");
             }
         }
         //==================================== Hozzáadás esemény ====================================
@@ -191,9 +197,9 @@ namespace Beadandó_Adatbázis_Feladat
         {
             var NewElementWindow = new AddNew();
             if (NewElementWindow.ShowDialog() == true)
-                this.ResponseForUser.Content = "Sikeres adat rögzítés!";
+                ShowResponse("Sikeres adat rögzítés!");
             else
-                this.ResponseForUser.Content = "Sikeretelen adat felvétel!";
+                ShowResponse("Sikeretelen adat felvétel!");
         }
         //==================================== Frissítés esemény ====================================
         private void OnUpdate(object sender, EventArgs e)
@@ -212,21 +218,21 @@ namespace Beadandó_Adatbázis_Feladat
             var UpdateElementWindow = new UpdateOld(SelectedList[0]);
             if (UpdateElementWindow.ShowDialog() == true)
             {
-                this.ResponseForUser.Content = "Sikeres adat rögzítés!";
+                ShowResponse("Sikeres adat rögzítés!");
                 LoadLastChoice();
             }
             else
-                this.ResponseForUser.Content = "Sikeretelen adat felvétel!";
+                ShowResponse("Sikeretelen adat felvétel!");
         }
-        
+        //==================================== Keresési esemény ====================================
         private void OnOuterSearch(object sender, EventArgs e)
         {
             if (Searcher.ResultList.IsNullOrEmpty())
-                this.ResponseForUser.Content = "Sikeretelen keresés!";
+                ShowResponse("Sikeretelen keresés!");
             else
             {
                 Loader.LoadData(Searcher.ResultList);
-                this.ResponseForUser.Content = "Sikeres keresés!";
+                ShowResponse("Sikeres keresés!");
             }
         }
     }

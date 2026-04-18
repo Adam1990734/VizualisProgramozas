@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Ingatlan Kezelő" Height="450" Width="800">
     <DockPanel x:Name="MainPanel">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Nézet">
@@ -19,11 +19,11 @@
                     <MenuItem x:Name="SpecPropAndType" Header="Ingatlan+Tipus"/>
                     <MenuItem x:Name="SpecPropAndAgent" Header="Ingatlanok+Ügynökök"/>
                 </MenuItem>
-                <MenuItem x:Name="Info" Header="Infó"/>
             </MenuItem>
             <MenuItem x:Name="NewBtn" Header="Új"/>
             <MenuItem x:Name="DeleteBtn" Header="Törlés"/>
             <MenuItem x:Name="UpdateBtn" Header="Módosítás"/>
+            <MenuItem x:Name="Info" Header="Infó"/>
         </Menu>
         <Label x:Name="ResponseForUser" DockPanel.Dock="Bottom" Height="auto"></Label>
         <DockPanel>

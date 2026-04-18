@@ -57,14 +57,18 @@ namespace Beadandó_Adatbázis_Feladat
         {
             Type RuntimeType = UsingObjects.First().GetType();
             if (RuntimeType == typeof(Property) || RuntimeType == typeof(Agent) || RuntimeType == typeof(PropertyType))
+            {
                 ColumnChooser.ItemsSource = Columns;
+                ColumnChooser.DisplayMemberPath = null;
+                ColumnChooser.SelectedValuePath = null;
+            }
             else
             {
                 var ComplexList = new List<CompItem>();
                 foreach (var Col in Columns)
                     ComplexList.Add(new CompItem
                     {
-                        ColumnWrapper = Col.Substring(1, Col.Length-1).Replace("_", "->"),
+                        ColumnWrapper = Col.Substring(1, Col.Length - 1).Replace("_", "->"),
                         Column = Col.Split('_')[1]
                     });
                 ColumnChooser.ItemsSource = ComplexList;
@@ -80,16 +84,60 @@ namespace Beadandó_Adatbázis_Feladat
         {
             Type RuntimeType = UsingObjects.First().GetType();
             if (RuntimeType == typeof(Property) || RuntimeType == typeof(Agent) || RuntimeType == typeof(PropertyType))
-                return UsingObjects.Where(Obj => {
+            {
+                if (PatternMode.IsChecked == true)
+                    return UsingObjects.Where(Obj =>
+                    {
+                        var Prop = Obj.GetType()
+                            .GetProperty(GetSelectedColumn())?
+                            .GetValue(Obj);
+
+                        if (Prop == null)
+                            return false;
+
+                        Prop = Prop.ToString();
+                        if (Prop == null)
+                            return false;
+
+                        return ((string)Prop).Contains(GetInput()) || ((string)Prop).Contains(GetInput().Replace(".", ","));
+                    }).Cast<PropertyDbBase>().ToList();
+                return UsingObjects.Where(Obj =>
+                {
                     var Prop = Obj.GetType()
                         .GetProperty(GetSelectedColumn())?
                         .GetValue(Obj);
+
                     if (Prop == null)
                         return false;
-                    Prop = Prop.GetType() == typeof(double) ? Prop.ToString().Replace(',', '.') : Prop.ToString();
-                    return Prop.Equals(GetInput());
+
+                    Prop = Prop.ToString();
+
+                    return Prop.Equals(GetInput()) || Prop.Equals(GetInput().Replace(".", ","));
                 }).Cast<PropertyDbBase>().ToList();
+            }
             else
+            {
+                if(PatternMode.IsChecked == true)
+                    return UsingObjects.Where(Obj =>
+                    {
+                        var Inner = Obj.GetType()
+                            .GetProperty(Columns[GetSelectedColumnIndex()].Split('_')[0])?
+                            .GetValue(Obj);
+
+                        if (Inner == null)
+                            return false;
+
+                        var InnerProp = Inner.GetType().GetProperty(GetSelectedColumn());
+                        if (InnerProp == null)
+                            return false;
+
+                        var Value = InnerProp.GetValue(Inner).ToString();
+
+                        if (Value == null)
+                            return false;
+
+                        return ((string)Value).Contains(GetInput()) || ((string)Value).Contains(GetInput().Replace(".", ","));
+                    }).Cast<PropertyDbBase>().ToList();
                 return UsingObjects.Where(Obj =>
                 {
                     var Inner = Obj.GetType()
@@ -103,15 +151,14 @@ namespace Beadandó_Adatbázis_Feladat
                     if (InnerProp == null)
                         return false;
 
-                    var Value = InnerProp.GetValue(Inner);
+                    var Value = InnerProp.GetValue(Inner).ToString();
 
                     if (Value == null)
                         return false;
 
-                    Value = Value.GetType() == typeof(double) ? Value.ToString().Replace(',', '.') : Value.ToString();
-                    return Value.Equals(GetInput());
+                    return Value.Equals(GetInput()) || Value.Equals(GetInput().Replace(".", ","));
                 }).Cast<PropertyDbBase>().ToList();
-
+            }
         }
         private void OnSearch(object sender, EventArgs e)
         {
