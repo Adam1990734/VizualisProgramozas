@@ -2,7 +2,6 @@
 using Beadandó_Adatbázis_Feladat.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Beadandó_Adatbázis_Feladat
 {

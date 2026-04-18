@@ -2,14 +2,16 @@
 using Beadandó_Adatbázis_Feladat.Models;
 using Beadandó_Adatbázis_Feladat.DbContext;
 using System.Windows.Controls;
+using System.Net.NetworkInformation;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Beadandó_Adatbázis_Feladat
 {
+    public enum ModeOfLoad { ALL, AGENT, PROP, TYPE, AandP, PTYandP }
     public partial class MainWindow : Window
     {
         //========================= Ablak API Elemek =========================
         //Lekéredéz container (minden objectet elbír):
-        internal enum ModeOfLoad { ALL, AGENT, PROP, TYPE, AandP, PTYandP }
         ModeOfLoad LastLoadMode;
         public List<PropertyDbBase>? PropertyObjects { get; set; }
         //====================================================================
@@ -17,7 +19,7 @@ namespace Beadandó_Adatbázis_Feladat
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += LoadAll;
+            Loaded += LoadAgents;
             //=========================== Esemény kezelők ===========================
             AllElem.Click += LoadAll;
             //Egy táblás:
@@ -29,8 +31,12 @@ namespace Beadandó_Adatbázis_Feladat
             SpecPropAndType.Click += LoadPropAndType;
             //Törlés:
             DeleteBtn.Click += OnDelete;
+            //Felvétel:
             NewBtn.Click += OnCreate;
+            //Frissítés:
             UpdateBtn.Click += OnUpdate;
+            //Kersés:
+            Searcher.SearchBtn.Click += OnOuterSearch;
 
             //=======================================================================
 
@@ -48,6 +54,7 @@ namespace Beadandó_Adatbázis_Feladat
             PropertyObjects = db.AllData;
             Loader.LoadData(PropertyObjects, false);
             LastLoadMode = ModeOfLoad.ALL;
+            Searcher.SetContext(Loader.Columns, PropertyObjects);
             this.DataContext = this;
         }
         private void LoadAgents(object sender, EventArgs e)
@@ -61,6 +68,7 @@ namespace Beadandó_Adatbázis_Feladat
             PropertyObjects = db.Agents.Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
             LastLoadMode = ModeOfLoad.AGENT;
+            Searcher.SetContext(Loader.Columns, PropertyObjects);
             this.DataContext = this;
         }
         private void LoadProperties(object sender, EventArgs e)
@@ -74,6 +82,7 @@ namespace Beadandó_Adatbázis_Feladat
             PropertyObjects = db.Properties.Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
             LastLoadMode = ModeOfLoad.PROP;
+            Searcher.SetContext(Loader.Columns, PropertyObjects);
             this.DataContext = this;
         }
         private void LoadTypes(object sender, EventArgs e)
@@ -87,6 +96,7 @@ namespace Beadandó_Adatbázis_Feladat
             PropertyObjects = db.PropertyTypes.Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects);
             LastLoadMode = ModeOfLoad.TYPE;
+            Searcher.SetContext(Loader.Columns, PropertyObjects);
             this.DataContext = this;
         }
         private void LoadPropAndType(object sender, EventArgs e)
@@ -100,6 +110,7 @@ namespace Beadandó_Adatbázis_Feladat
             PropertyObjects = db.JoinProperiesAndTypes().Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects, false);
             LastLoadMode = ModeOfLoad.PTYandP;
+            Searcher.SetContext(Loader.Columns, PropertyObjects);
             this.DataContext = this;
         }
         private void LoadPropAndAgents(object sender, EventArgs e)
@@ -113,6 +124,7 @@ namespace Beadandó_Adatbázis_Feladat
             PropertyObjects = db.JoinProperiesAndAgents().Cast<PropertyDbBase>().ToList();
             Loader.LoadData(PropertyObjects, false);
             LastLoadMode = ModeOfLoad.AandP;
+            Searcher.SetContext(Loader.Columns, PropertyObjects);
             this.DataContext = this;
         }
         private void NoDatabaseConnect()
@@ -205,6 +217,17 @@ namespace Beadandó_Adatbázis_Feladat
             }
             else
                 this.ResponseForUser.Content = "Sikeretelen adat felvétel!";
+        }
+        
+        private void OnOuterSearch(object sender, EventArgs e)
+        {
+            if (Searcher.ResultList.IsNullOrEmpty())
+                this.ResponseForUser.Content = "Sikeretelen keresés!";
+            else
+            {
+                Loader.LoadData(Searcher.ResultList);
+                this.ResponseForUser.Content = "Sikeres keresés!";
+            }
         }
     }
 }

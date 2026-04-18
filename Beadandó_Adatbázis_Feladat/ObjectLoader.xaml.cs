@@ -9,6 +9,8 @@ namespace Beadandó_Adatbázis_Feladat
     public partial class ObjectLoader : UserControl
     {
         private bool Selectable;
+        private List<string> CurrentColumns;
+        public List<string> Columns { get => CurrentColumns; }
         public ObjectLoader()
         {
             InitializeComponent();
@@ -36,10 +38,10 @@ namespace Beadandó_Adatbázis_Feladat
                     IsReadOnly = false
                 });
 
-            //Amikor összetett:
             if (RuntimeType == typeof(Property) || RuntimeType == typeof(Agent) || RuntimeType == typeof(PropertyType))
             {
                 var ObjectProperties = RuntimeType.GetProperties().Where(prop => !prop.Name.ToUpper().Contains("ID"));
+                this.CurrentColumns = ObjectProperties.Select(prop => prop.Name).ToList();
                 foreach (var col in ObjectProperties)
                     DataPanel.Columns.Add(new DataGridTextColumn
                     {
@@ -64,8 +66,8 @@ namespace Beadandó_Adatbázis_Feladat
             }
             else
             {
-                var Columns = GetFlattenedColumns(RuntimeType);
-                foreach (var Col in Columns)
+                this.CurrentColumns = GetFlattenedColumns(RuntimeType);
+                foreach (var Col in this.CurrentColumns)
                 {
                     
                     DataPanel.Columns.Add(new DataGridTextColumn
@@ -76,7 +78,7 @@ namespace Beadandó_Adatbázis_Feladat
                     });
                 }
                 DataPanel.ItemsSource = Loadable
-                    .Select(x => FlattenObject(x, Columns))
+                    .Select(x => FlattenObject(x, this.CurrentColumns))
                     .ToList();
             }
         }

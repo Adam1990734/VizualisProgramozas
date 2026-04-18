@@ -8,11 +8,11 @@
              d:DesignHeight="80" d:DesignWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="SearchInput" Grid.Column="0"/>
+        <TextBox x:Name="SearchInput" Grid.Column="0"/>
         <ComboBox x:Name="ColumnChooser" Grid.Column="1"/>
         <Button x:Name="SearchBtn" Grid.Column="2">Keres</Button>
     </Grid>
