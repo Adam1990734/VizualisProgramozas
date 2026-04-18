@@ -64,46 +64,36 @@ namespace Beadandó_Adatbázis_Feladat
             }
             else
             {
-                var columns = GetFlattenedColumns(RuntimeType);
-                foreach (var col in columns)
+                var Columns = GetFlattenedColumns(RuntimeType);
+                foreach (var Col in Columns)
                 {
+                    
                     DataPanel.Columns.Add(new DataGridTextColumn
                     {
-                        Header = col.Header.Split('.')[1],
-                        Binding = new Binding(col.Binding),
+                        Header = Col.Split('_')[1],
+                        Binding = new Binding(Col),
                         IsReadOnly = true
                     });
                 }
                 DataPanel.ItemsSource = Loadable
-                    .Select(x => FlattenObject(x, columns))
+                    .Select(x => FlattenObject(x, Columns))
                     .ToList();
             }
         }
-        private List<(string Header, string Binding)> GetFlattenedColumns(Type GivenType)
+        private List<string> GetFlattenedColumns(Type GivenType)
         {
-            var Result = new List<(string, string)>();
-
-            foreach (var Prop in GivenType.GetProperties())
-            {
-                if (IsSimple(Prop.PropertyType))
-                    Result.Add((Prop.Name, Prop.Name));
-                else
+            var Result = new List<string>();
+            foreach (var Prop in GivenType.GetProperties()) {
+                foreach (var SubProp in Prop.PropertyType.GetProperties())
                 {
-                    foreach (var SubProp in Prop.PropertyType.GetProperties())
-                    {
-                        if (IsSimple(SubProp.PropertyType))
-                        {
-                            string Binding = $"{Prop.Name}_{SubProp.Name}";
-                            string Header = $"{Prop.Name}.{SubProp.Name}";
-                            Result.Add((Header, Binding));
-                        }
-                    }
+                    if (!SubProp.Name.ToUpper().Contains("ID"))
+                        Result.Add(Prop.Name + "_" + SubProp.Name);
                 }
             }
 
             return Result;
         }
-        private object FlattenObject( PropertyDbBase Source, List<(string Header, string Binding)> Columns)
+        private object FlattenObject( PropertyDbBase Source, List<string> Columns)
         {
             IDictionary<string, object?> Row = new ExpandoObject();
 
@@ -113,30 +103,21 @@ namespace Beadandó_Adatbázis_Feladat
             foreach (var Col in Columns)
             {
                 object? Value = Source;
-                string[] Path = Col.Binding.Split('_');
+                string[] Path = Col.Split('_');
 
                 foreach (var Part in Path)
                 {
                     if (Value == null)
                         break;
-                    PropertyInfo? pi = Value.GetType().GetProperty(Part);
-                    Value = pi?.GetValue(Value);
+                    PropertyInfo? Pi = Value.GetType().GetProperty(Part);
+                    Value = Pi?.GetValue(Value);
                 }
 
-                Row[Col.Binding] = Value;
+                Row[Col] = Value;
             }
             Row["Source"] = Source;
 
             return Row;
-        }
-        private bool IsSimple(Type Type)
-        {
-            return
-                Type.IsPrimitive ||
-                Type == typeof(string) ||
-                Type == typeof(decimal) ||
-                Type == typeof(double) ||
-                Type == typeof(DateTime);
         }
         public List<PropertyDbBase> GetSelectedObjects()
         {

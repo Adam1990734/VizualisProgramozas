@@ -8,6 +8,9 @@
     <Compile Update="ObjectLoader.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="SearchBar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UpdateOld.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
