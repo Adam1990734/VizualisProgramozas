@@ -3762,11 +3762,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\palma\\GitHubProjects\\VizualisProgramozas\\Beadandó_Adatbázis_Feladat\\Beadandó_Adatbázis_Feladat.csproj",
+      "projectUniqueName": "C:\\Users\\palma\\Documents\\VizualisProgramozas\\Beadandó_Adatbázis_Feladat\\Beadandó_Adatbázis_Feladat.csproj",
       "projectName": "Beadandó_Adatbázis_Feladat",
-      "projectPath": "C:\\Users\\palma\\GitHubProjects\\VizualisProgramozas\\Beadandó_Adatbázis_Feladat\\Beadandó_Adatbázis_Feladat.csproj",
+      "projectPath": "C:\\Users\\palma\\Documents\\VizualisProgramozas\\Beadandó_Adatbázis_Feladat\\Beadandó_Adatbázis_Feladat.csproj",
       "packagesPath": "C:\\Users\\palma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\palma\\GitHubProjects\\VizualisProgramozas\\Beadandó_Adatbázis_Feladat\\obj\\",
+      "outputPath": "C:\\Users\\palma\\Documents\\VizualisProgramozas\\Beadandó_Adatbázis_Feladat\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3799,7 +3799,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0-windows7.0": {
@@ -3847,7 +3847,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

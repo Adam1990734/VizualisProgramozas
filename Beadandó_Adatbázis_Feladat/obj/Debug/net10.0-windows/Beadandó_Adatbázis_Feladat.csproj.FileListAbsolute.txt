@@ -487,3 +487,9 @@ C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\o
 C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\UpdateOld.baml
 C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\SearchBar.g.cs
 C:\Users\palma\GitHubProjects\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\SearchBar.baml
+C:\Users\palma\Documents\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\AddNew.g.cs
+C:\Users\palma\Documents\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\SearchBar.g.cs
+C:\Users\palma\Documents\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\UpdateOld.g.cs
+C:\Users\palma\Documents\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\AddNew.baml
+C:\Users\palma\Documents\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\SearchBar.baml
+C:\Users\palma\Documents\VizualisProgramozas\Beadandó_Adatbázis_Feladat\obj\Debug\net10.0-windows\UpdateOld.baml

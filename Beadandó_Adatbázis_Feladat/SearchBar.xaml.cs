@@ -131,7 +131,7 @@ namespace Beadandó_Adatbázis_Feladat
                         if (InnerProp == null)
                             return false;
 
-                        var Value = InnerProp.GetValue(Inner).ToString();
+                        var Value = InnerProp.GetValue(Inner)?.ToString();
 
                         if (Value == null)
                             return false;
@@ -151,7 +151,7 @@ namespace Beadandó_Adatbázis_Feladat
                     if (InnerProp == null)
                         return false;
 
-                    var Value = InnerProp.GetValue(Inner).ToString();
+                    var Value = InnerProp.GetValue(Inner)?.ToString();
 
                     if (Value == null)
                         return false;

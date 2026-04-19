@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace Beadandó_Adatbázis_Feladat.Validations
 {
-    public sealed class OnlyNumberValidationRule : ValidationRule
+    public sealed class OnlyNumberRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

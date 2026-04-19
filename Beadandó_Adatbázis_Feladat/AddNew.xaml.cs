@@ -13,6 +13,8 @@ namespace Beadandó_Adatbázis_Feladat
         private OptionsToCreate CurrentlyShowing;
 
         private PropertyDbBase ObjectToUpdate;
+
+        public string CurrentInputValue { get; set; }
         public AddNew()
         {
             InitializeComponent();
@@ -25,6 +27,8 @@ namespace Beadandó_Adatbázis_Feladat
             this.ChooseType.Selected += (object sender, RoutedEventArgs e) => ShowPanel(OptionsToCreate.TYPE);
             this.ChooseAgent.Selected += (object sender, RoutedEventArgs e) => ShowPanel(OptionsToCreate.AGENT);
             //=====================================================================
+
+            DataContext = this;
         }
         //========================== Betöltő események ==========================
         private void HideCurrent()
