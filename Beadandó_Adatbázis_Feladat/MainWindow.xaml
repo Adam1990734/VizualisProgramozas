@@ -25,7 +25,7 @@
             <MenuItem x:Name="UpdateBtn" Header="Módosítás"/>
             <MenuItem x:Name="Info" Header="Infó"/>
         </Menu>
-        <Label x:Name="ResponseForUser" DockPanel.Dock="Bottom" Height="auto"></Label>
+        <Label x:Name="ResponseForUser" DockPanel.Dock="Bottom" Height="auto" Visibility="Collapsed"></Label>
         <DockPanel>
             <local:SearchBar x:Name="Searcher" DockPanel.Dock="Top"/>
             <local:ObjectLoader x:Name="Loader"/>

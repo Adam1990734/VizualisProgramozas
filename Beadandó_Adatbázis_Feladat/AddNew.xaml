@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
+        xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat.Validations"
         mc:Ignorable="d"
         Title="Új elem felvétele" Height="450" Width="350">
     <DockPanel>
@@ -55,7 +55,15 @@
                     <!-- Sor definíciók: -->
                     <DockPanel Grid.Row="0">
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Helység:</Label>
-                        <TextBox x:Name="LoacationInput" MaxHeight="30px"/>
+                        <TextBox x:Name="LoacationInput" MaxHeight="30px">
+                            <Binding RelativeSource="{RelativeSource Self}"
+                                     Path="Text"
+                                     UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <local:MaxStrLengthRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox>
                     </DockPanel>
                     <DockPanel Grid.Row="1">
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Kerület:</Label>
