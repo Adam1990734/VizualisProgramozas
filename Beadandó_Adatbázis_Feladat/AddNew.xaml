@@ -57,7 +57,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Helység:</Label>
                         <TextBox x:Name="LoacationInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:MaxStrLengthRule/>
@@ -69,7 +69,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Kerület:</Label>
                         <TextBox x:Name="DistrictInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:DistrictRule/>
@@ -81,7 +81,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Területe:</Label>
                         <TextBox x:Name="AreaInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:OnlyIntegerRule/>
@@ -93,7 +93,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Szobaszám:</Label>
                         <TextBox x:Name="CountOfRoomsInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:OnlyIntegerRule/>
@@ -105,7 +105,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Ár:</Label>
                         <TextBox x:Name="PriceInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:OnlyNumberRule/>
@@ -144,7 +144,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Lakás típusa:</Label>
                         <TextBox x:Name="PropTypeNameInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:MaxStrLengthRule/>
@@ -163,7 +163,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Teljes név:</Label>
                         <TextBox x:Name="AgentNameInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:MaxStrLengthRule/>
@@ -176,7 +176,7 @@
                         <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Telefon:</Label>
                         <TextBox x:Name="AgentPhoneInput" MaxHeight="30px">
                             <Binding Path="CurrentInputValue"
-                                     Mode="TwoWay"
+                                     Mode="OneWayToSource"
                                      UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <local:PhoneNumberRule/>

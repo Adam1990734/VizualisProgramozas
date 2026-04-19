@@ -18,7 +18,9 @@ namespace Beadandó_Adatbázis_Feladat
         public AddNew()
         {
             InitializeComponent();
+            //======================= Alaphelyzetre állítás =======================
             ShowPanel(OptionsToCreate.PROP);
+            this.MenuOptions.SelectedIndex = 0;
             //========================== Esemény kezelők ==========================
             this.SaveBtn.Click += OnSave;
             this.CancelBtn.Click += OnCancel;
@@ -50,6 +52,7 @@ namespace Beadandó_Adatbázis_Feladat
         }
         private void ShowPanel(OptionsToCreate ToShow)
         {
+            OnReset();
             HideCurrent();
             switch (ToShow)
             {
@@ -68,12 +71,17 @@ namespace Beadandó_Adatbázis_Feladat
                         this.AgentsInput.DisplayMemberPath = "Name";
                         this.AgentsInput.SelectedValuePath = "Id";
                     }
+                    this.GarageInput.SelectedIndex = 1;
+                    this.GreenAreaInput.SelectedIndex = 1;
+                    this.PropTypesInput.SelectedIndex = 0;
+                    this.AgentsInput.SelectedIndex = 0;
                     break;
                 case OptionsToCreate.TYPE:
                     this.PropertyTypePanel.Visibility = Visibility.Visible;
                     break;
                 case OptionsToCreate.AGENT:
                     this.AgentPanel.Visibility = Visibility.Visible;
+                    this.AgentStatusInput.SelectedIndex = 1;
                     break;
                 default:
                     throw new Exception("Unknow show parameter has given!");
@@ -94,8 +102,8 @@ namespace Beadandó_Adatbázis_Feladat
                         { "Area", int.TryParse(this.AreaInput.Text, out int Area) ? Area : null },
                         { "CountOfRooms", int.TryParse(this.CountOfRoomsInput.Text, out int CountOfRooms ) ? CountOfRooms : null },
                         { "Price", double.TryParse(this.PriceInput.Text, out double Price) ? Price : null },
-                        { "Garage", bool.TryParse((this.GarageInput.SelectedItem as ComboBoxItem).Tag.ToString(), out bool Garage) ? Garage : false },
-                        { "GreenArea", bool.TryParse((this.GreenAreaInput.SelectedItem as ComboBoxItem).Tag.ToString(), out bool GreenArea) ? GreenArea : false },
+                        { "Garage", bool.TryParse((this.GarageInput.SelectedItem as ComboBoxItem)?.Tag.ToString(), out bool Garage) ? Garage : false },
+                        { "GreenArea", bool.TryParse((this.GreenAreaInput.SelectedItem as ComboBoxItem)?.Tag.ToString(), out bool GreenArea) ? GreenArea : false },
                         { "Type", this.PropTypesInput.SelectedValue },
                         { "Agent", this.AgentsInput.SelectedValue }
                     };
@@ -109,7 +117,7 @@ namespace Beadandó_Adatbázis_Feladat
                     {
                         { "Name", this.AgentNameInput.Text },
                         { "Phone", this.AgentPhoneInput.Text },
-                        { "Status", bool.TryParse((this.AgentStatusInput.SelectedItem as ComboBoxItem).Tag.ToString(), out bool Status) ? Status : false }
+                        { "Status", bool.TryParse((this.AgentStatusInput.SelectedItem as ComboBoxItem)?.Tag.ToString(), out bool Status) ? Status : false }
                     };
                 default:
                     throw new Exception("Unknow type has given!");

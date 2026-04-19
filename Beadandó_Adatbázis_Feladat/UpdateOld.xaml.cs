@@ -8,8 +8,11 @@ namespace Beadandó_Adatbázis_Feladat
     public partial class UpdateOld : Window
     {
         internal enum OptionsToCreate { PROP, TYPE, AGENT }
+
         private OptionsToCreate CurrentlyShowing;
+
         private PropertyDbBase GivenObject;
+        public string CurrentInputValue { get; set; }
         public UpdateOld(PropertyDbBase DatabaseObject)
         {
             InitializeComponent();
@@ -46,6 +49,7 @@ namespace Beadandó_Adatbázis_Feladat
             else throw new Exception("Not supported type has given!");
             //=========================================================
             this.GivenObject = DatabaseObject;
+            DataContext = this;
         }
         //==================================== Betöltő függvények ====================================
         private void LoadInToTextBoxes(Agent ObjectToLoad)

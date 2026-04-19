@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat"
+        xmlns:local="clr-namespace:Beadandó_Adatbázis_Feladat.Validations"
         mc:Ignorable="d"
         Title="Elem módosítása" Height="450" Width="350">
     <DockPanel x:Name="MainPanel">
@@ -39,23 +39,63 @@
                 <!-- Sor definíciók: -->
                 <DockPanel Grid.Row="0">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Helység:</Label>
-                    <TextBox x:Name="LoacationInput" MaxHeight="30px"/>
+                    <TextBox x:Name="LoacationInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:MaxStrLengthRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Kerület:</Label>
-                    <TextBox x:Name="DistrictInput" MaxHeight="30px"/>
+                    <TextBox x:Name="DistrictInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:DistrictRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Területe:</Label>
-                    <TextBox x:Name="AreaInput" MaxHeight="30px"/>
+                    <TextBox x:Name="AreaInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:OnlyIntegerRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="3">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Szobaszám:</Label>
-                    <TextBox x:Name="CountOfRoomsInput" MaxHeight="30px"/>
+                    <TextBox x:Name="CountOfRoomsInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:OnlyIntegerRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="4">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Ár:</Label>
-                    <TextBox x:Name="PriceInput" MaxHeight="30px"/>
+                    <TextBox x:Name="PriceInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:OnlyNumberRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="5">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Garázs:</Label>
@@ -86,7 +126,15 @@
                 </Grid.RowDefinitions>
                 <DockPanel>
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Lakás típusa:</Label>
-                    <TextBox x:Name="PropTypeNameInput" MaxHeight="30px"/>
+                    <TextBox x:Name="PropTypeNameInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:MaxStrLengthRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
             </Grid>
             <Grid x:Name="AgentPanel" Visibility="Collapsed">
@@ -97,11 +145,28 @@
                 </Grid.RowDefinitions>
                 <DockPanel Grid.Row="0">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Teljes név:</Label>
-                    <TextBox x:Name="AgentNameInput" MaxHeight="30px"/>
+                    <TextBox x:Name="AgentNameInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:MaxStrLengthRule/>
+                                <local:NameRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Telefon:</Label>
-                    <TextBox x:Name="AgentPhoneInput" MaxHeight="30px"/>
+                    <TextBox x:Name="AgentPhoneInput" MaxHeight="30px">
+                        <Binding Path="CurrentInputValue"
+                                 Mode="OneWayToSource"
+                                 UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <local:PhoneNumberRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Elérhető-e:</Label>
