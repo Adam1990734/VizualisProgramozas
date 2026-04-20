@@ -149,6 +149,8 @@ namespace Beadandó_Adatbázis_Feladat
                 FindTextBoxes(Child, Result);
             }
         }
+        //==================================== Az adott lapot üríti függvény ====================================
+        //(alapból gombot is terveztem hozzá csak lusta voltam csak ezért még grid-eket csinálni.
         private void OnReset()
         {
             switch (CurrentlyShowing)
@@ -169,7 +171,7 @@ namespace Beadandó_Adatbázis_Feladat
                     throw new Exception("Unknown type has given!");
             }
         }
-        //========================== Mentés és Elutasítás ==========================
+        //==================================== Validációs függvény ====================================
         private bool IsValid(OptionsToCreate CurrantPage)
         {
             switch(CurrantPage)
@@ -189,6 +191,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             return false;
         }
+        //==================================== Interakciós gombok esemény kezelői ====================================
         private void OnSave(object sender, EventArgs e)
         {
             if (!IsValid(this.CurrentlyShowing)) {

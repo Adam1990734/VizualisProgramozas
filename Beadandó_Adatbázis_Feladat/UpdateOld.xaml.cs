@@ -127,6 +127,7 @@ namespace Beadandó_Adatbázis_Feladat
                     throw new Exception("Unknow type has given!");
             }
         }
+        //==================================== TexBox kereső függvény ====================================
         public List<TextBox> GetAllTexBoxes(Grid Root)
         {
             var Result = new List<TextBox>();
@@ -152,6 +153,7 @@ namespace Beadandó_Adatbázis_Feladat
                 FindTextBoxes(Child, Result);
             }
         }
+        //==================================== Validációs függvény ====================================
         private bool IsValid(OptionsToCreate CurrantPage)
         {
             switch (CurrantPage)
@@ -171,7 +173,7 @@ namespace Beadandó_Adatbázis_Feladat
             }
             return false;
         }
-
+        //==================================== Interakciós gombok esemény kezelői ====================================
         private void OnSave(object sender, EventArgs e)
         {
             if (!IsValid(this.CurrentlyShowing))
