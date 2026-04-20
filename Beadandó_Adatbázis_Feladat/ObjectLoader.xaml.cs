@@ -121,10 +121,10 @@ namespace Beadandó_Adatbázis_Feladat
 
             return Row;
         }
-        public List<PropertyDbBase> GetSelectedObjects()
+        public List<PropertyDbBase>? GetSelectedObjects()
         {
             if (!Selectable)
-                throw new Exception("The current table has no selction column!");
+                return null;
             DataPanel.CommitEdit(DataGridEditingUnit.Cell, true);
             DataPanel.CommitEdit(DataGridEditingUnit.Row, true);
             return DataPanel.ItemsSource

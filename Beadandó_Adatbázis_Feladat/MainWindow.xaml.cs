@@ -177,6 +177,12 @@ namespace Beadandó_Adatbázis_Feladat
         //==================================== Törlés esemény ====================================
         private void OnDelete(object sender, EventArgs e)
         {
+            var SelectedList = Loader.GetSelectedObjects();
+            if(SelectedList == null || SelectedList.Count < 1)
+            {
+                MessageBox.Show("Válasszon ki minimum egy sort!");
+                return;
+            }
             using var db = new DataBase();
             try
             {
@@ -185,8 +191,9 @@ namespace Beadandó_Adatbázis_Feladat
                     NoDatabaseConnect();
                     return;
                 }
-                db.DeleteObjects(Loader.GetSelectedObjects());
+                db.DeleteObjects(SelectedList);
                 LoadLastChoice();
+                ShowResponse("Sikeres adat törlés!");
             } catch(Exception ex)
             {
                 ShowResponse("Sikeretelen törlés!");

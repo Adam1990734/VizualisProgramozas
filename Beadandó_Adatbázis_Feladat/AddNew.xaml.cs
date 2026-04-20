@@ -170,8 +170,31 @@ namespace Beadandó_Adatbázis_Feladat
             }
         }
         //========================== Mentés és Elutasítás ==========================
+        private bool IsValid(OptionsToCreate CurrantPage)
+        {
+            switch(CurrantPage)
+            {
+                case OptionsToCreate.PROP:
+                    foreach(var Input in GetAllTexBoxes(this.PropertyPanel))
+                        if(Validation.GetHasError(Input)) return false;
+                    return true;
+                case OptionsToCreate.TYPE:
+                    foreach (var Input in GetAllTexBoxes(this.PropertyTypePanel))
+                        if (Validation.GetHasError(Input)) return false;
+                    return true;
+                case OptionsToCreate.AGENT:
+                    foreach (var Input in GetAllTexBoxes(this.AgentPanel))
+                        if (Validation.GetHasError(Input)) return false;
+                    return true;
+            }
+            return false;
+        }
         private void OnSave(object sender, EventArgs e)
         {
+            if (!IsValid(this.CurrentlyShowing)) {
+                MessageBox.Show("Hibás adatokat nem vihet be!");
+                return;
+            }
             try
             {
                 var InputData = ReadInput(CurrentlyShowing);

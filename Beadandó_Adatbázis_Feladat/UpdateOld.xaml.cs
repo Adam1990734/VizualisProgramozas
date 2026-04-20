@@ -2,6 +2,7 @@
 using Beadandó_Adatbázis_Feladat.Models;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Beadandó_Adatbázis_Feladat
 {
@@ -126,8 +127,58 @@ namespace Beadandó_Adatbázis_Feladat
                     throw new Exception("Unknow type has given!");
             }
         }
+        public List<TextBox> GetAllTexBoxes(Grid Root)
+        {
+            var Result = new List<TextBox>();
+
+            if (Root == null)
+                return Result;
+
+            FindTextBoxes(Root, Result);
+            return Result;
+        }
+
+        private void FindTextBoxes(DependencyObject Parent, List<TextBox> Result)
+        {
+            int ChildCount = VisualTreeHelper.GetChildrenCount(Parent);
+
+            for (int i = 0; i < ChildCount; i++)
+            {
+                DependencyObject Child = VisualTreeHelper.GetChild(Parent, i);
+
+                if (Child is TextBox tb)
+                    Result.Add(tb);
+
+                FindTextBoxes(Child, Result);
+            }
+        }
+        private bool IsValid(OptionsToCreate CurrantPage)
+        {
+            switch (CurrantPage)
+            {
+                case OptionsToCreate.PROP:
+                    foreach (var Input in GetAllTexBoxes(this.PropertyPanel))
+                        if (Validation.GetHasError(Input)) return false;
+                    return true;
+                case OptionsToCreate.TYPE:
+                    foreach (var Input in GetAllTexBoxes(this.PropertyTypePanel))
+                        if (Validation.GetHasError(Input)) return false;
+                    return true;
+                case OptionsToCreate.AGENT:
+                    foreach (var Input in GetAllTexBoxes(this.AgentPanel))
+                        if (Validation.GetHasError(Input)) return false;
+                    return true;
+            }
+            return false;
+        }
+
         private void OnSave(object sender, EventArgs e)
         {
+            if (!IsValid(this.CurrentlyShowing))
+            {
+                MessageBox.Show("Hibás adatokat nem vihet be!");
+                return;
+            }
             try
             {
                 var InputData = ReadInput(CurrentlyShowing);

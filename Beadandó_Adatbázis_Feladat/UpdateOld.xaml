@@ -39,62 +39,82 @@
                 <!-- Sor definíciók: -->
                 <DockPanel Grid.Row="0">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Helység:</Label>
-                    <TextBox x:Name="LoacationInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:MaxStrLengthRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="LoacationInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:MaxStrLengthRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Kerület:</Label>
-                    <TextBox x:Name="DistrictInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:DistrictRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="DistrictInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:DistrictRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Területe:</Label>
-                    <TextBox x:Name="AreaInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:OnlyIntegerRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="AreaInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:OnlyIntegerRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="3">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Szobaszám:</Label>
-                    <TextBox x:Name="CountOfRoomsInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:OnlyIntegerRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="CountOfRoomsInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:OnlyIntegerRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="4">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Ár:</Label>
-                    <TextBox x:Name="PriceInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:OnlyNumberRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="PriceInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:OnlyNumberRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="5">
@@ -126,14 +146,18 @@
                 </Grid.RowDefinitions>
                 <DockPanel>
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Lakás típusa:</Label>
-                    <TextBox x:Name="PropTypeNameInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:MaxStrLengthRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="PropTypeNameInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:MaxStrLengthRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
             </Grid>
@@ -145,27 +169,35 @@
                 </Grid.RowDefinitions>
                 <DockPanel Grid.Row="0">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Teljes név:</Label>
-                    <TextBox x:Name="AgentNameInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:MaxStrLengthRule/>
-                                <local:NameRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="AgentNameInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:MaxStrLengthRule/>
+                                    <local:NameRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Center" MinWidth="80px" MaxHeight="30px">Telefon:</Label>
-                    <TextBox x:Name="AgentPhoneInput" MaxHeight="30px">
-                        <Binding Path="CurrentInputValue"
-                                 Mode="OneWayToSource"
-                                 UpdateSourceTrigger="LostFocus">
-                            <Binding.ValidationRules>
-                                <local:PhoneNumberRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
+                    <TextBox x:Name="AgentPhoneInput" MaxHeight="30px"
+                                 ToolTip="{Binding RelativeSource={RelativeSource Self},
+                                                   Path=(Validation.Errors)[0].ErrorContent}">
+                        <TextBox.Text>
+                            <Binding Path="CurrentInputValue"
+                                     Mode="OneWayToSource"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:PhoneNumberRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Row="2">
