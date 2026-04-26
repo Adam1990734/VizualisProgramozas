@@ -238,7 +238,9 @@ namespace Beadandó_Adatbázis_Feladat
                 ShowResponse("Sikeretelen keresés!");
             else
             {
-                Loader.LoadData(Searcher.ResultList);
+                if (LastLoadMode == ModeOfLoad.ALL || LastLoadMode == ModeOfLoad.AandP || LastLoadMode == ModeOfLoad.PTYandP)
+                    Loader.LoadData(Searcher.ResultList, false);
+                else Loader.LoadData(Searcher.ResultList);
                 ShowResponse("Sikeres keresés!");
             }
         }
